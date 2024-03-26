@@ -1,7 +1,9 @@
 import time
+import ast # Gabrielson, 2009 - https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary
 import os
 
 g_Prompt = '>> '
+g_Alpha = ['a', 'b', 'c', 'd', 'e', 'f']
 
 class bcolours: # 'joeld', 2008. Coloured text - https://stackoverflow.com/questions/287871/how-do-i-print-colored-text-to-the-terminal 
     HEADER = '\033[95m'
@@ -50,11 +52,55 @@ def printMenu(p_Info, p_Error):
         
         print("\nEnter a past test number to view the result.")
         print("Enter [e] to go back.")
+    
+    if p_Info["Menu"] == 'Results_ViewResult':
+        p_OpenFile = open(os.getcwd() + '/' + p_Info['Path'], 'r')
+        p_OpenLog = []
+        
+        for p_Temp in p_OpenFile:
+            p_OpenLog.append(ast.literal_eval(p_Temp.strip())) # Gabrielson, 2009 - The function takes a representation of data and evaluates it into the data type. 
+
+        print(f"{bcolours.CUSTOMGRAY}Home > Past results > {p_OpenLog[0]['Subject']} on {p_OpenLog[0]['Date']}{bcolours.ENDC}") 
+
+        for p_I in range(len(p_OpenLog)-1): 
+            p_I = p_I + 1
+            p_Row = p_OpenLog[p_I] 
+
+            if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']:
+                print(f"\n{p_I}. ✅ {p_Row['Question']}")
+            else:
+                print(f"\n{p_I}. ❌ {p_Row['Question']}")
+
+            if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']: 
+                for p_J in range(len(p_Row['Answers'])):
+                    if p_J == p_Row['SelectedAnswer']:
+                        print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')
+                    else:
+                        print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}')
+
+                print(f'\n{bcolours.OKGREEN}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')
+                print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')
+            
+            else:
+                for p_J in range(len(p_Row['Answers'])):
+                    if p_J == p_Row['SelectedAnswer']:
+                        print(f'{bcolours.FAIL}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')
+                    else:
+                        if p_J == p_Row['CorrectAnswer']:
+                            print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')
+                        else:
+                            print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}')
+
+                print(f'\n{bcolours.FAIL}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')
+                print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')
+            
+
+
 
 
 
 # Print the home page.
-""" 
+        """ 
 p_Info = {'Menu':'Home'}
 p_Error = None
 printMenu(p_Info, p_Error)
@@ -66,8 +112,7 @@ g_Temp = os.listdir(os.getcwd() + '/results')
 printMenu({'Menu':'Results_Main', 'Results':g_Temp}, 1) 
 """
 
-
-
+printMenu({'Menu':'Results_ViewResult', 'Path':'Results/Maths on 2-03-2024 (14.59.21) 5 minutes 4 questions copy.txt'}, 2.1)
 
 
 input(g_Prompt)
