@@ -68,7 +68,6 @@ BEGIN
                     p_Row = p_OpenLog[p_I] 
 
                     IF p_Row['Selected Answer'] IS p_Row['Correct Answer']            >  (IF the answer is correct)
-
                         THEN:
                             PRINT ✅ & p_I & p_Row[p_I]['Question']                   >   >   (Print the question as correct)
                         ELSE:
