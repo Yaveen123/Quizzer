@@ -26,7 +26,8 @@ This is an example question set:
 ``` 
 Simply put this file into any folder in the `Subjects` folder. 
 
-> How does it work?
+How does it work?
+
 The **first row** of the your question set always shows the `subject` and the `topic`.  
 ```py
 {
