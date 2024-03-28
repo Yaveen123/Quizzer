@@ -6,7 +6,7 @@ Why? Because real world exams often test different topics at one time, but curre
 
 # Getting started. 🚀
 1. Download the [project](https://github.com/Yaveen123/Quizzer/tree/main/Project) folder and extract the contents.
-2. Run 'Quizzer.py' in VS-Code
+2. Run 'Quizzer.py' **in VS-Code.**
 
 ### System requirements.
 - **VS Code** or other IDE with [ANSI Escape Sequences](https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_.28Select_Graphic_Rendition.29_parameters) enabled.
