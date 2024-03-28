@@ -1,3 +1,15 @@
+"""
+
+   ___        _                  
+  / _ \ _   _(_)___________ _ __ 
+ | | | | | | | |_  /_  / _ \ '__|
+ | |_| | |_| | |/ / / /  __/ |   
+  \__\_\\__,_|_/___/___\___|_|   
+                                 
+11 Software Engineering 2024. 
+Title art: https://www.patorjk.com/software/taag 
+"""
+
 import time
 import ast # Gabrielson, 2009 - https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary
 import os
@@ -25,6 +37,7 @@ def printMenu(p_Info, p_Error):
     
     os.system('cls') # Kumaran, 2011 https://stackoverflow.com/questions/4810537/how-to-clear-the-screen-in-python - Clears the screen using os module for WINDOWS computers.
 
+    # Errors - If an error needs to be shown, it's displayed before everything else.
     if p_Error == 1:
         print(f"{bcolours.FAIL}That's not a possible option.{bcolours.ENDC}\n")
 
@@ -41,7 +54,7 @@ def printMenu(p_Info, p_Error):
         print(f"{bcolours.FAIL}That's not enough time.{bcolours.ENDC}\n")
 
 
-
+    # Home page and results menus.
     if p_Info['Menu'] == 'Home':
         print(f"{bcolours.CUSTOMGRAY}Hi! Welcome to Quizzer.{bcolours.ENDC}\n") 
         print(f"[1] Take test \n[2] View past result\n")
@@ -129,7 +142,7 @@ def printMenu(p_Info, p_Error):
         print(f'Enter {bcolours.FAIL}[d]{bcolours.ENDC} to delete this test.')
 
 
-
+    # Test setup 
     if p_Info['Menu'] == 'TestSetup_Main':
         print(f'{bcolours.CUSTOMGRAY}Home > Take a test{bcolours.ENDC}\n')
         print(f'We found {len(p_Info['Subjects'])} subjects.\n')
@@ -180,7 +193,7 @@ def printMenu(p_Info, p_Error):
         print('Enter [e] to go back')
 
 
-
+    # Main tests section
     if p_Info['Menu'] == 'Test_Main':
         print(f'{bcolours.CUSTOMGRAY}{p_Info['Subject']} test >{bcolours.ENDC} Question {bcolours.BOLD}{p_Info['QuestionNo.']}/{p_Info['AmtQuestions']}{bcolours.ENDC}')
         print(f'{bcolours.CUSTOMGRAY}{bcolours.BOLD}{p_Info['TimeRemaining']}{bcolours.ENDC}{bcolours.CUSTOMGRAY} minutes remaining.{bcolours.ENDC}')
@@ -209,9 +222,38 @@ def printMenu(p_Info, p_Error):
             print(f'Enter [k] to finish test.{bcolours.ENDC}')
 
     if p_Info['Menu'] == 'Test_PreExit':
+        print(f"{bcolours.CUSTOMGRAY}{p_Info['Subject']} Test > {bcolours.ENDC}All questions\n")
+
+        for p_I in range(p_Info['AmtQuestions']):
+            if p_I in p_Info['UnansweredQuestions']:
+                print(f'{bcolours.FAIL}{bcolours.BOLD}[{p_I+1}]{bcolours.ENDC}', end=' ')
+            else:
+                print(f'[{p_I+1}]', end=' ')
         
+        print('')
 
+        for p_I in range(p_Info['AmtQuestions']):
+            if p_I in p_Info['UnansweredQuestions']:
+                print(f'{bcolours.FAIL}{bcolours.BOLD} ^  {bcolours.ENDC}', end='')
+            else:
+                print(f'    ', end='')
 
+        print(f"\n\nQuestions in {bcolours.FAIL}{bcolours.BOLD}red{bcolours.ENDC} aren't answered.")
+        print('Enter any question number to jump to that question.')
+        print(f'{bcolours.CUSTOMGRAY}Enter [k] to finish test.')
+        print(f'Enter [e] to go back.{bcolours.ENDC}')
+
+    if p_Info['Menu'] == 'Test_End':
+        print(f'{bcolours.CUSTOMGRAY}{p_Info['Subject']}{bcolours.ENDC} > End')
+        print(f'\n{bcolours.BOLD}End of test! 🎉{bcolours.ENDC}\n')
+        print('Enter [s] to view results.')
+        print('Enter [e] to go back to the home screen.')
+    
+    if p_Info['Menu'] == 'Test_OutOfTime':
+        print(f'{bcolours.CUSTOMGRAY}{p_Info['Subject']}{bcolours.ENDC} > End')
+        print(f"\n{bcolours.BOLD}Out of time! ⌚{bcolours.ENDC}\nYour last question wasn't recorded.\n")
+        print('Enter [s] to view results.')
+        print('Enter [e] to go back to the home screen.')
 
 
 
@@ -221,7 +263,7 @@ def printMenu(p_Info, p_Error):
 
 
 # Print the home page.
-        """ 
+""" 
 p_Info = {'Menu':'Home'}
 p_Error = None
 printMenu(p_Info, p_Error)
@@ -235,36 +277,36 @@ printMenu({'Menu':'Results_Main', 'Results':g_Temp}, 1)
 """
 printMenu({'Menu':'Results_ViewResult', 'Path':'Results/Maths on 2-03-2024 (14.59.21) 5 minutes 4 questions copy.txt'}, 2.1)
 """
-#Delete a result
+# Delete a result
 """
 printMenu({'Menu':'Results_DeleteResult', 'Path':'Results/Maths on 2-03-2024 (14.59.21) 5 minutes 4 questions copy.txt'}, 1)
 """
-# Test - Setup Main
+# TestSetup - Setup Main
 """
 g_Subjects = os.listdir(os.getcwd()+'/Subjects')
 printMenu({'Menu':'TestSetup_Main', 'Subjects':g_Subjects}, 2.1)
 """
-# Test - Setup Topics
+# TestSetup - Setup Topics
 g_ChosenSubject = 'Math'
 g_ChosenTopics = ['Addition','Multiplication']
 """
 g_Topics = os.listdir(os.getcwd() + '/Subjects/' + g_ChosenSubject)
 printMenu({'Menu':'TestSetup_Topics', 'Subject':g_ChosenSubject,'Topics':g_Topics, 'ChosenTopics':g_ChosenTopics}, 2.2)
 """
-#Test - Setup Questions
+#TestSetup - Setup Questions
 """
 printMenu({'Menu':'TestSetup_Questions', 'Subject':g_ChosenSubject, 'MaxQuestions':50},1)
 """
-#Test - Setup Time
+#TestSetup - Setup Time
 """
 printMenu({'Menu':'TestSetup_Time', 'Subject':g_ChosenSubject, 'RecommendedTime':70}, 2)
 """
-#Test - Final Checks
+#TestSetup - Final Checks
 """
 printMenu({'Menu':'TestSetup_FinalCheck', 'Subject':g_ChosenSubject, 'Topics':g_ChosenTopics, 'AmtQuestions':30, 'AmtTime':20}, None)
 """
-
-
+#Test - Main
+"""
 printMenu({
     'Menu':'Test_Main', 
     'Subject':g_ChosenSubject, 
@@ -275,6 +317,24 @@ printMenu({
     'PossibleAnswers':['10','2','22', '12'], 
     'SelectedAnswer':2
     }, 1)
+"""
+#Test - PreExit
+"""
+printMenu({
+    'Menu':'Test_PreExit', 
+    'AmtQuestions':10, 
+    'UnansweredQuestions':[0,3], 
+    'Subject':g_ChosenSubject
+    }, 1)
+"""
+#End Test - End
+"""
+printMenu({'Menu':'Test_End', 'Subject':g_ChosenSubject}, 1)
+"""
+#End Test - Out of time
+"""
+printMenu({'Menu':'Test_OutOfTime', 'Subject':g_ChosenSubject}, 1)
+"""
 
 
 input(g_Prompt)
