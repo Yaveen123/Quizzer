@@ -17,7 +17,16 @@ Why? Because real world exams often test different topics at one time, but curre
 # Creating your own question sets.
 ### Question sets
 Each row of a question set is a [dictionary](https://www.w3schools.com/python/python_dictionaries.asp). 
+This is an example question set:
+`Addition.txt`
+```py
+{'Subject':'Maths','Topic':'Addition'}
+{'Question':'What is 2 + 3', 'Answers':['10','5','22', '12'], 'SelectedAnswer':None, 'CorrectAnswer':2}
+{'Question': 'What is 1 + 2', 'Answers': ['3', '5', '7', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
+``` 
+Simply put this file into any folder in the `Subjects` folder. 
 
+> How does it work?
 The **first row** of the your question set always shows the `subject` and the `topic`.  
 ```py
 {
@@ -36,15 +45,7 @@ Every other row represents a question, like so:
 }
 ```
 
-This creates a question set, like:
-`Addition.txt`
-```py
-{'Subject':'Maths','Topic':'Addition'}
-{'Question':'What is 2 + 3', 'Answers':['10','5','22', '12'], 'SelectedAnswer':None, 'CorrectAnswer':2}
-{'Question': 'What is 1 + 2', 'Answers': ['3', '5', '7', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
-``` 
 
-Simply put this file into any folder in the `Subjects` folder. 
 See more about the file system below:
 
 ### File system
