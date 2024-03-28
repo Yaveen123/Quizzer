@@ -15,8 +15,7 @@ Why? Because real world exams often test different topics at one time, but curre
 - **Windows** 10 (v22H2+) or 11.
 
 # Creating your own question sets.
-### Question sets
-Each row of a question set is a [dictionary](https://www.w3schools.com/python/python_dictionaries.asp). 
+## Question sets
 This is an example question set:
 `Addition.txt`
 ```py
@@ -26,9 +25,10 @@ This is an example question set:
 ``` 
 Simply put this file into any folder in the `Subjects` folder. 
 
-How does it work?
 
-The **first row** of the your question set always shows the `subject` and the `topic`.  
+### How does it work?
+- Each row of a question set is a [dictionary](https://www.w3schools.com/python/python_dictionaries.asp). 
+- The **first row** of the your question set always shows the `subject` and the `topic`.  
 ```py
 {
   'Subject':'Maths',
@@ -36,7 +36,7 @@ The **first row** of the your question set always shows the `subject` and the `t
 }
 ```
 
-Every other row represents a question, like so:
+- Every other row represents a question, like so:
 ```py
 {
   'Question':'What is 2 + 3',        # Given question.
@@ -47,9 +47,8 @@ Every other row represents a question, like so:
 ```
 
 
-See more about the file system below:
 
-### File system
+## File system
 Inside the `Subjects` folder, you can create your own folder, and place your question sets inside :D 
 
 Every subject is stored in the `Subjects` folder. In each subject, a `.txt` file holds a question set. 
