@@ -15,7 +15,7 @@ Why? Because real world exams often test different topics at one time, but curre
 - **Windows** 10 (v22H2+) or 11.
 
 # Creating your own question sets.
-## Question sets
+## Question sets 📝
 This is an example question set:
 `Addition.txt`
 ```py
@@ -48,7 +48,7 @@ Simply put this file into any folder in the `Subjects` folder.
 
 
 
-## File system
+## File system 📁
 Inside the `Subjects` folder, you can create your own folder, and place your question sets inside :D 
 
 Every subject is stored in the `Subjects` folder. In each subject, a `.txt` file holds a question set. 
