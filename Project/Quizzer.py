@@ -55,26 +55,27 @@ def printMenu(p_Info, p_Error):
 
 
     # Home page and results menus.
-    if p_Info['Menu'] == 'Home':
+    if p_Info['Menu'] == 'Home': # Home page.
         print(f"{bcolours.CUSTOMGRAY}Hi! Welcome to Quizzer.{bcolours.ENDC}\n") 
         print(f"[1] Take test \n[2] View past result\n")
         print("Select an option by entering a number from above.")
 
-    if p_Info['Menu'] == 'Results_Main':
+    if p_Info['Menu'] == 'Results_Main': # Results page.                            Takes 'Results' 
         print(f"{bcolours.CUSTOMGRAY}Home > Past results{bcolours.ENDC}\n")
 
-        for p_I in range(len(p_Info['Results'])):
+        for p_I in range(len(p_Info['Results'])): # Parses the past results and prints each item. 
             print(f"[{p_I + 1}] {p_Info['Results'][p_I][:-3]}")
         
         print("\nEnter a past test number to view the result.")
         print("Enter [e] to go back.")
     
-    if p_Info["Menu"] == 'Results_ViewResult':
-        p_OpenFile = open(os.getcwd() + '/' + p_Info['Path'], 'r')
+    if p_Info["Menu"] == 'Results_ViewResult': # view a specific result.            Takes: 'Path'
+        p_OpenFile = open(os.getcwd() + '/' + p_Info['Path'], 'r') # Using specified path, open file.
         p_OpenLog = []
         
-        for p_Temp in p_OpenFile:
-            p_OpenLog.append(ast.literal_eval(p_Temp.strip())) # Gabrielson, 2009 - The function takes a representation of data and evaluates it into the data type. 
+        for p_Temp in p_OpenFile: # Convert file into a list.
+            p_OpenLog.append(ast.literal_eval(p_Temp.strip())) # Gabrielson, 2009 - The function takes a representation of data and evaluates it into the data type. Link at top of code.
+            # Here, this means it takes a string representation of a dictionary and converts it into an actual dictionary.
 
         p_OpenFile.close()
 
@@ -83,57 +84,57 @@ def printMenu(p_Info, p_Error):
         for p_I in range(len(p_OpenLog)-1): 
             p_I = p_I + 1
             p_Row = p_OpenLog[p_I] 
-
-            if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']:
+            # Print the question.
+            if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']: #If the question is correct, add ✅ else ❌ 
                 print(f"\n{p_I}. ✅ {p_Row['Question']}")
             else:
                 print(f"\n{p_I}. ❌ {p_Row['Question']}") 
-
-            if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']: 
+            # Print the possible answers that the user could've selected from.
+            if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']:  # If the user selected from the correct answer...
                 for p_J in range(len(p_Row['Answers'])):
-                    if p_J == p_Row['SelectedAnswer']:
-                        print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')
+                    if p_J == p_Row['SelectedAnswer']: 
+                        print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}') # Print green if correct.
                     else:
-                        print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}')
+                        print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}') 
 
                 print(f'\n{bcolours.OKGREEN}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')
                 print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')
             
-            else:
-                for p_J in range(len(p_Row['Answers'])):
+            else: # If the user selected the incorrect answer...
+                for p_J in range(len(p_Row['Answers'])): # Print all the answers, except this time theres an incorrect answer.
                     if p_J == p_Row['SelectedAnswer']:
-                        print(f'{bcolours.FAIL}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')
+                        print(f'{bcolours.FAIL}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}') # Print red if incorrect.
                     else:
                         if p_J == p_Row['CorrectAnswer']:
-                            print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')
+                            print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}') # Print green if correct answer (but user didn't choose it)
                         else:
                             print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}')
 
-                print(f'\n{bcolours.FAIL}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')
-                print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')
+                print(f'\n{bcolours.FAIL}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}') # Shows answer user selected (incorrect)
+                print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}') # Shows the correct answer. 
 
             print(f"\n{bcolours.CUSTOMGRAY}{g_Separator}")
-            print(f"Test on {p_OpenLog[0]['Subject']}:")
+            print(f"Test on {p_OpenLog[0]['Subject']}:") # Shows subject.
 
             for p_I in range(len(p_OpenLog[0]['Topics'])):
-                print(f'- {p_OpenLog[0]['Topics'][p_I]}')
+                print(f'- {p_OpenLog[0]['Topics'][p_I]}') # Shows topics.
             
             print(f'{g_Separator}{bcolours.ENDC}')
 
-            print(f'You Scored:   {p_OpenLog[0]['Score']}/{p_OpenLog[0]['AmtQuestions']} ({str((int(p_OpenLog[0]['Score'])/int(p_OpenLog[0]['AmtQuestions'])*100))[:4]}%).')
-            print(f'Time Taken:   {p_OpenLog[0]['TimeTaken']}m{bcolours.CUSTOMGRAY} out of {p_OpenLog[0]['TimeAllocated']}m.{bcolours.ENDC}')
+            print(f'You Scored:   {p_OpenLog[0]['Score']}/{p_OpenLog[0]['AmtQuestions']} ({str((int(p_OpenLog[0]['Score'])/int(p_OpenLog[0]['AmtQuestions'])*100))[:4]}%).') # Shows score.
+            print(f'Time Taken:   {p_OpenLog[0]['TimeTaken']}m{bcolours.CUSTOMGRAY} out of {p_OpenLog[0]['TimeAllocated']}m.{bcolours.ENDC}') # Shows time taken.
 
             print(f'{bcolours.CUSTOMGRAY}{g_Separator}{bcolours.ENDC}\n')
 
             print('Enter [e] to go back.')
             print('Enter [d] to delete test.')
 
-    if p_Info['Menu'] == 'Results_DeleteResult':
+    if p_Info['Menu'] == 'Results_DeleteResult': #Delete result.                    Takes: 'Path'
         p_OpenFile = open(os.getcwd() + '/' + p_Info['Path'], 'r')
         p_OpenLog = []
         
         for p_Temp in p_OpenFile:
-            p_OpenLog.append(ast.literal_eval(p_Temp.strip())) # Gabrielson, 2009 - The function takes a representation of data and evaluates it into the data type. 
+            p_OpenLog.append(ast.literal_eval(p_Temp.strip())) # Gabrielson, 2009 - The function takes a representation of data and evaluates it into the data type. Link at top of code.
 
         p_OpenFile.close() 
         print(f"{bcolours.CUSTOMGRAY}Home > Past results > {p_OpenLog[0]['Subject']} on {p_OpenLog[0]['Date']} > Deletion{bcolours.ENDC}\n") 
@@ -143,89 +144,89 @@ def printMenu(p_Info, p_Error):
 
 
     # Test setup 
-    if p_Info['Menu'] == 'TestSetup_Main':
+    if p_Info['Menu'] == 'TestSetup_Main': # Test Selector page.                    Takes: 'Subjects'
         print(f'{bcolours.CUSTOMGRAY}Home > Take a test{bcolours.ENDC}\n')
         print(f'We found {len(p_Info['Subjects'])} subjects.\n')
 
-        for p_I in range(len(p_Info['Subjects'])):
-            print(f'  [{p_I +1}] {p_Info['Subjects'][p_I]}')
+        for p_I in range(len(p_Info['Subjects'])): # Prints out the list of subjects.
+            print(f'  [{p_I +1}] {p_Info['Subjects'][p_I]}') # A numeric value is given to each subject to select from. 
 
-        print('\nSelect a subject by entering the corresponding number.')
+        print('\nSelect a subject by entering the corresponding number.') 
         print(f'{bcolours.CUSTOMGRAY}Enter [e] to go back.{bcolours.ENDC}')
     
-    if p_Info['Menu'] == 'TestSetup_Topics':
-        print(f'{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']}{bcolours.ENDC}')
-        print(f'{bcolours.CUSTOMGRAY}Please note that these question sets are AI Generated{bcolours.ENDC}\n')
-        print(f"We found {len(p_Info['Topics'])} question sets inside {p_Info['Subject']}\n")
+    if p_Info['Menu'] == 'TestSetup_Topics': # Topics selector page.                Takes: 'Subject', 'Topics', 'ChosenTopics'
+        print(f'{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']}{bcolours.ENDC}') 
+        print(f'{bcolours.CUSTOMGRAY}Please note that these question sets are AI Generated{bcolours.ENDC}\n') # Notifies user that the question sets are primarily AI. 
+        print(f"We found {len(p_Info['Topics'])} question sets inside {p_Info['Subject']}\n") # Shows amt of question sets inside the folder.
         
-        for p_I in range(len(p_Info['Topics'])):
+        for p_I in range(len(p_Info['Topics'])): # Print each avaliable question set (called 'topic')
             if p_Info['Topics'][p_I][:-4] in p_Info['ChosenTopics']:
-                print(f'   [{p_I+1}]  ✅  {p_Info['Topics'][p_I][:-4]}')
+                print(f'   [{p_I+1}]  ✅  {p_Info['Topics'][p_I][:-4]}') # If the user has selected it, print with ✅
             else:
-                print(f'   [{p_I+1}]  ⏺   {p_Info['Topics'][p_I][:-4]}')
+                print(f'   [{p_I+1}]  ⏺   {p_Info['Topics'][p_I][:-4]}') # Else print with ⏺
         print(f'\nEnter the corresponding number to add/remove a topic.')
         print("Enter [s] when you're done.")
         print(f'{bcolours.CUSTOMGRAY}Enter [e] to go back.{bcolours.ENDC}')
     
-    if p_Info['Menu'] == 'TestSetup_Questions':
+    if p_Info['Menu'] == 'TestSetup_Questions': # Choose amount of questions.       Takes: 'MaxQuestions'
         print(f'{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']} > Questions {bcolours.ENDC}\n')
         print('Enter the amount of questions you want in the test.')
-        print(f'{bcolours.CUSTOMGRAY}The max. for your selection is {bcolours.ENDC}{p_Info['MaxQuestions']}.\n')
+        print(f'{bcolours.CUSTOMGRAY}The max. for your selection is {bcolours.ENDC}{p_Info['MaxQuestions']}.\n') # MaxQuestions is determined outside the printmenu.
         print(f'{bcolours.CUSTOMGRAY}Enter [e] to go back.{bcolours.ENDC}')
     
-    if p_Info['Menu'] == 'TestSetup_Time':
+    if p_Info['Menu'] == 'TestSetup_Time': # Choose amount of time to allocate.     Takes 'RecommendedTime' 
         print(f'{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']} > Questions > Time{bcolours.ENDC}\n')
         print('Enter the amount of time you want to allocate for your test.')
-        print(f'{bcolours.CUSTOMGRAY}We recommend {p_Info['RecommendedTime']} minutes based on your current selection.{bcolours.ENDC}\n')
+        print(f'{bcolours.CUSTOMGRAY}We recommend {p_Info['RecommendedTime']} minutes based on your current selection.{bcolours.ENDC}\n') # RecommendedTime is determined outside of the printmenu.
         print(f'{bcolours.CUSTOMGRAY}Enter [e] to go back.{bcolours.ENDC}')
-        print('(minutes) ', end='')
+        print('(minutes) ', end='') # Shows that only an integer (which translates to minutes) is valid.
     
-    if p_Info['Menu'] == 'TestSetup_FinalCheck':
+    if p_Info['Menu'] == 'TestSetup_FinalCheck': # Final check before starting.     Takes 'Subject', 'Topics', 'AmtQuestions', 'AmtTime'
         print(f'{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']} > Questions > Time > FinalSetps{bcolours.ENDC}\n')
-        print(f"{bcolours.CUSTOMGRAY}Just checking, you're about to start a {bcolours.ENDC}{bcolours.BOLD}{p_Info['Subject']}{bcolours.CUSTOMGRAY} test on:{bcolours.ENDC}")
+        print(f"{bcolours.CUSTOMGRAY}Just checking, you're about to start a {bcolours.ENDC}{bcolours.BOLD}{p_Info['Subject']}{bcolours.CUSTOMGRAY} test on:{bcolours.ENDC}") # Shows subject
         
-        for p_I in range(len(p_Info['Topics'])):
+        for p_I in range(len(p_Info['Topics'])): # Shows list of topics.
             print(f"{bcolours.BOLD}-  {p_Info['Topics'][p_I]}{bcolours.ENDC}")
         
-        print(f"\nThis test will go for {bcolours.BOLD}{p_Info['AmtTime']} minutes{bcolours.ENDC} and have {bcolours.BOLD}{p_Info['AmtQuestions']} questions.{bcolours.ENDC}")
+        print(f"\nThis test will go for {bcolours.BOLD}{p_Info['AmtTime']} minutes{bcolours.ENDC} and have {bcolours.BOLD}{p_Info['AmtQuestions']} questions.{bcolours.ENDC}") # Shows how long test will go for and how many questions will be in the test.
         
         print('\nEnter [s] to start.')
         print('Enter [e] to go back')
 
 
     # Main tests section
-    if p_Info['Menu'] == 'Test_Main':
+    if p_Info['Menu'] == 'Test_Main': # The actual test.                            Takes: 'Subject', 'QuestionNo.', 'AmtQuestions', 'TimeRemaining',  'Question', 'PossibleAnswers', 'SelectedAnswer'
         print(f'{bcolours.CUSTOMGRAY}{p_Info['Subject']} test >{bcolours.ENDC} Question {bcolours.BOLD}{p_Info['QuestionNo.']}/{p_Info['AmtQuestions']}{bcolours.ENDC}')
-        print(f'{bcolours.CUSTOMGRAY}{bcolours.BOLD}{p_Info['TimeRemaining']}{bcolours.ENDC}{bcolours.CUSTOMGRAY} minutes remaining.{bcolours.ENDC}')
+        print(f'{bcolours.CUSTOMGRAY}{bcolours.BOLD}{p_Info['TimeRemaining']}{bcolours.ENDC}{bcolours.CUSTOMGRAY} minutes remaining.{bcolours.ENDC}') # Shows the time remaining. 
 
-        print(f'\n{p_Info['Question']}')
+        print(f'\n{p_Info['Question']}') # Shows the question.
 
-        for p_I in range(len(p_Info['PossibleAnswers'])):
+        for p_I in range(len(p_Info['PossibleAnswers'])): # Shows the possible answers.
             if p_Info['SelectedAnswer'] == None: 
                 print(f'   [{g_Alpha[p_I]}] {p_Info['PossibleAnswers'][p_I]}')
-            elif p_Info['SelectedAnswer'] == p_I:
+            elif p_Info['SelectedAnswer'] == p_I: # Highlights the selected answer if the user has selected anything.
                 print(f'{bcolours.OKCYAN}{bcolours.BOLD}-> [{g_Alpha[p_I]}] {p_Info['PossibleAnswers'][p_I]}{bcolours.ENDC}  {bcolours.OKCYAN}{bcolours.CUSTOMITALIC}selected{bcolours.ENDC}')
             else:
                 print(f'   [{g_Alpha[p_I]}] {p_Info['PossibleAnswers'][p_I]}')
         
         print('\nEnter the corresponding letter to select your answer.')
 
-        if p_Info['QuestionNo.'] == 1:
+        if p_Info['QuestionNo.'] == 1: # If the user is on the first question, they cannot go back.
             print(f"{bcolours.CUSTOMGRAY}Enter [s] to go forward.")
             print(f'Enter [k] to finish test.{bcolours.ENDC}')
-        elif p_Info['QuestionNo.'] >= p_Info['AmtQuestions']:
+        elif p_Info['QuestionNo.'] >= p_Info['AmtQuestions']: # If the user is on (or somehow further) than the last question, they cannot go forward. 
             print(f'{bcolours.CUSTOMGRAY}Enter [e] to go back.')
             print(f'Enter [k] to finish test.{bcolours.ENDC}')
-        else:
+        else: # Show all avaliable options if the user can go forward or back. 
             print(f"{bcolours.CUSTOMGRAY}Enter [s] to go forward.")
             print(f'Enter [e] to go back.')
             print(f'Enter [k] to finish test.{bcolours.ENDC}')
 
-    if p_Info['Menu'] == 'Test_PreExit':
+    if p_Info['Menu'] == 'Test_PreExit':  # When the user wants to finish the test. Takes: 'AmtQuestions', 'UnansweredQuestions', 'Subject'
         print(f"{bcolours.CUSTOMGRAY}{p_Info['Subject']} Test > {bcolours.ENDC}All questions\n")
 
-        for p_I in range(p_Info['AmtQuestions']):
-            if p_I in p_Info['UnansweredQuestions']:
+        for p_I in range(p_Info['AmtQuestions']): # Creates a menu of all the questions.
+            if p_I in p_Info['UnansweredQuestions']: # If the question isn't answered, the question will be marked red. 
                 print(f'{bcolours.FAIL}{bcolours.BOLD}[{p_I+1}]{bcolours.ENDC}', end=' ')
             else:
                 print(f'[{p_I+1}]', end=' ')
@@ -233,7 +234,7 @@ def printMenu(p_Info, p_Error):
         print('')
 
         for p_I in range(p_Info['AmtQuestions']):
-            if p_I in p_Info['UnansweredQuestions']:
+            if p_I in p_Info['UnansweredQuestions']: # If the question isnt answered, a small pointer will appear under the question. 
                 print(f'{bcolours.FAIL}{bcolours.BOLD} ^  {bcolours.ENDC}', end='')
             else:
                 print(f'    ', end='')
@@ -243,22 +244,17 @@ def printMenu(p_Info, p_Error):
         print(f'{bcolours.CUSTOMGRAY}Enter [k] to finish test.')
         print(f'Enter [e] to go back.{bcolours.ENDC}')
 
-    if p_Info['Menu'] == 'Test_End':
+    if p_Info['Menu'] == 'Test_End': # End of test by choice.                       Takes 'Subject'
         print(f'{bcolours.CUSTOMGRAY}{p_Info['Subject']}{bcolours.ENDC} > End')
         print(f'\n{bcolours.BOLD}End of test! 🎉{bcolours.ENDC}\n')
         print('Enter [s] to view results.')
         print('Enter [e] to go back to the home screen.')
     
-    if p_Info['Menu'] == 'Test_OutOfTime':
+    if p_Info['Menu'] == 'Test_OutOfTime': # End of test due to timelimit.          Takes 'Subject' 
         print(f'{bcolours.CUSTOMGRAY}{p_Info['Subject']}{bcolours.ENDC} > End')
         print(f"\n{bcolours.BOLD}Out of time! ⌚{bcolours.ENDC}\nYour last question wasn't recorded.\n")
         print('Enter [s] to view results.')
         print('Enter [e] to go back to the home screen.')
-
-
-
-
-
 
 
 
@@ -335,6 +331,5 @@ printMenu({'Menu':'Test_End', 'Subject':g_ChosenSubject}, 1)
 """
 printMenu({'Menu':'Test_OutOfTime', 'Subject':g_ChosenSubject}, 1)
 """
-
 
 input(g_Prompt)
