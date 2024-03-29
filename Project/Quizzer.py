@@ -1,5 +1,4 @@
 """
-
    ___        _                  
   / _ \ _   _(_)___________ _ __ 
  | | | | | | | |_  /_  / _ \ '__|
@@ -48,7 +47,7 @@ def printMenu(p_Info, p_Error):
         print(f"{bcolours.FAIL}That's not enough questions.{bcolours.ENDC}\n")
 
     if p_Error == 3.1:
-        print(f"{bcolours.FAIL}Time limit must not exceed 1000 minutes{bcolours.ENDC}\n")
+        print(f"{bcolours.FAIL}Time limit must not exceed 240 minutes{bcolours.ENDC}\n")
 
     if p_Error == 3.2:
         print(f"{bcolours.FAIL}That's not enough time.{bcolours.ENDC}\n")
@@ -258,6 +257,50 @@ def printMenu(p_Info, p_Error):
 
 
 
+def checkForErrors(c_Error, c_Input, c_PossibleOptions):                             # Checks if valid input.
+    if c_Error == 1:                                                                 # Just a general check if the input is a specified possible option.
+        if c_Input in c_PossibleOptions:
+            return 0
+        else:
+            return 1                                                                 # To print: "That's not a possible option"
+    
+    if c_Error == 2:
+        if type(c_Input) == int:                                                     # Check if the input is an integer.
+            if c_Input > c_PossibleOptions[0]:                                       # c_PossibleOptions[0] shows the maximum possible input.
+                return 2.1                                                           #To print: "That's too many questions."
+            elif c_Input < 1:
+                return 2.2                                                           #To print: "That's not enough questions."
+            else:
+                return 0
+        elif c_Input in c_PossibleOptions:                                           # Sometimes, menu options like "Enter [b] to go back" will be present as other avaliable options. This bit validates those. 
+            return 0
+        else:
+            return 1                                                                 #To print: "That's not a possible option."
+    
+    if c_Error == 3:
+        if type(c_Input) == int:                                                     # Check if the input is an integer.
+            if c_Input > 240:                                                        # The maximum defined time limit is 240 minutes (i.e. 4 hours - insanely long anyway).
+                return 3.1                                                           #To print: "Time limit must not exceed 240 minutes"
+            elif c_Input < 1: 
+                return 3.2                                                           # Try doing a test in 0 minutes or less... "That's not enough time."
+            else:
+                return 0
+        elif c_Input in c_PossibleOptions:                                           # Sometimes, menu options like "Enter [b] to go back" will be present as other avaliable options. This bit validates those. 
+            return 0
+        else:
+            return 1                                                                 #To print: "That's not a possible option."
+
+def obtainValidInput(o_PrintMenuInfo, o_ErrorToCheck, o_PossibleInputs):
+    o_ErrorCode = None
+    while o_ErrorCode == None:
+        pass
+
+
+
+print(checkForErrors(2, -1, [11,'b','c'])) 
+
+printMenu({'Menu':'Home'}, checkForErrors(3, 1000, [11,'b','c']))
+
 # Print the home page.
 """ 
 p_Info = {'Menu':'Home'}
@@ -285,6 +328,7 @@ printMenu({'Menu':'TestSetup_Main', 'Subjects':g_Subjects}, 2.1)
 # TestSetup - Setup Topics
 g_ChosenSubject = 'Math'
 g_ChosenTopics = ['Addition','Multiplication']
+
 """
 g_Topics = os.listdir(os.getcwd() + '/Subjects/' + g_ChosenSubject)
 printMenu({'Menu':'TestSetup_Topics', 'Subject':g_ChosenSubject,'Topics':g_Topics, 'ChosenTopics':g_ChosenTopics}, 2.2)
