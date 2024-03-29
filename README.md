@@ -5,9 +5,13 @@ Quizzer - a simple system that allows you to mix different questions from multip
 Why? Because real world exams often test different topics at one time, but current pre-test/quiz systems often only tackle one topic at a time.  
 
 # Getting started. 🚀
-1. Download the [project](https://github.com/Yaveen123/Quizzer/archive/refs/heads/main.zip) folder and extract the contents.
-2. Extract the **entire folder.**
-3. Run 'Quizzer.py' **in VS-Code.**
+1. Download the [project](https://github.com/Yaveen123/Quizzer/archive/refs/heads/main.zip) folder.
+2. Extract the entire folder.
+3. Open **VS-Code**.
+4. In VS-Code, **hold `CTRL` and hit `K`+`O`**
+5. **Open the `project` folder**. Don't open `Quizzer-main` or any previous folders!
+6. The project should now be opened in VS-Code.
+7. Run 'Quizzer.py' **in VS-Code.**
 
 ### System requirements.
 - **VS Code** or other IDE with [ANSI Escape Sequences](https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_.28Select_Graphic_Rendition.29_parameters) enabled.
