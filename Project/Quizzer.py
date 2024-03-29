@@ -265,41 +265,47 @@ def checkForErrors(c_Error, c_Input, c_PossibleOptions):                        
             return 1                                                                 # To print: "That's not a possible option"
     
     if c_Error == 2:
-        if type(c_Input) == int:                                                     # Check if the input is an integer.
+        try:    
+            c_Input = int(c_Input)                                                   # Try to convert the input into a int. 
             if c_Input > c_PossibleOptions[0]:                                       # c_PossibleOptions[0] shows the maximum possible input.
                 return 2.1                                                           #To print: "That's too many questions."
             elif c_Input < 1:
                 return 2.2                                                           #To print: "That's not enough questions."
             else:
                 return 0
-        elif c_Input in c_PossibleOptions:                                           # Sometimes, menu options like "Enter [b] to go back" will be present as other avaliable options. This bit validates those. 
-            return 0
-        else:
-            return 1                                                                 #To print: "That's not a possible option."
+        except ValueError:                                                           # Jones, 2011 https://stackoverflow.com/questions/8075877/converting-string-to-int-using-try-except-in-python The try/except method allows me to check if the input is an integer without raising an exception. 
+            if c_Input in c_PossibleOptions:                                         # Sometimes, menu options like "Enter [b] to go back" will be present as other avaliable options. This bit validates those. 
+                return 0
+            else:
+                return 1                                                             #To print: "That's not a possible option."
     
     if c_Error == 3:
-        if type(c_Input) == int:                                                     # Check if the input is an integer.
+        try:
+            c_Input = int(c_Input)                                                   # Try to convert the input into a int. 
             if c_Input > 240:                                                        # The maximum defined time limit is 240 minutes (i.e. 4 hours - insanely long anyway).
                 return 3.1                                                           #To print: "Time limit must not exceed 240 minutes"
             elif c_Input < 1: 
                 return 3.2                                                           # Try doing a test in 0 minutes or less... "That's not enough time."
             else:
                 return 0
-        elif c_Input in c_PossibleOptions:                                           # Sometimes, menu options like "Enter [b] to go back" will be present as other avaliable options. This bit validates those. 
-            return 0
-        else:
-            return 1                                                                 #To print: "That's not a possible option."
+        except ValueError:                                                           # Jones, 2011 https://stackoverflow.com/questions/8075877/converting-string-to-int-using-try-except-in-python The try/except method allows me to check if the input is an integer without raising an exception. 
+            if c_Input in c_PossibleOptions:                                         # Sometimes, menu options like "Enter [b] to go back" will be present as other avaliable options. This bit validates those. 
+                return 0
+            else:
+                return 1                                                             #To print: "That's not a possible option."
 
-def obtainValidInput(o_PrintMenuInfo, o_ErrorToCheck, o_PossibleInputs):
+def obtainValidInput(o_PrintMenuInfo, o_ErrorToCheck, o_PossibleInputs): # Prints the menu and checks if the input is valid. The possible inputs MUST be in string.
     o_ErrorCode = None
-    while o_ErrorCode == None:
-        pass
+    while o_ErrorCode != 0:
+        printMenu(o_PrintMenuInfo, o_ErrorCode)
+        o_Input = input(g_Prompt)
+        o_ErrorCode = checkForErrors(o_ErrorToCheck, o_Input, o_PossibleInputs)      # If the input is invalid, then the checkForErrors module will return a value that ISNT 0, and the lopp continues until the input is valid. 
+    return o_Input
 
 
+print(obtainValidInput({'Menu':'Home'}, 2, [10,'b','c']))
 
-print(checkForErrors(2, -1, [11,'b','c'])) 
 
-printMenu({'Menu':'Home'}, checkForErrors(3, 1000, [11,'b','c']))
 
 # Print the home page.
 """ 
@@ -376,4 +382,3 @@ printMenu({'Menu':'Test_End', 'Subject':g_ChosenSubject}, 1)
 printMenu({'Menu':'Test_OutOfTime', 'Subject':g_ChosenSubject}, 1)
 """
 
-input(g_Prompt)
