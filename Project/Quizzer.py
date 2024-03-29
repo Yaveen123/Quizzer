@@ -52,6 +52,20 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
     if p_Error == 3.2:
         print(f"{bcolours.FAIL}That's not enough time.{bcolours.ENDC}\n")
 
+    if p_Info['Menu'] == 'DirectoryErr_Results':
+        print(f"{bcolours.FAIL}{bcolours.BOLD}Quizzer couldn't access the 'Results' or 'Subjects' folder/s!{bcolours.ENDC}\n")
+        print(f"Did you follow the download instructions correctly?")
+        print(f"""
+   1. Download the project from {bcolours.UNDERLINE}https://github.com/Yaveen123/Quizzer/archive/refs/heads/main.zip{bcolours.ENDC} 
+   2. Extract the entire folder.
+   3. Open VS-Code.
+   4. In VS-Code, hold CTRL and hit K+O
+   5. Select the "Project" folder. Don't open "Quizzer-main" or any previous folders!
+   6. The project should now be opened in VS-Code.
+   7. Run 'Quizzer.py' in VS-Code.
+""")
+        print(f"{bcolours.CUSTOMGRAY}For more information, head to the GitHub Repo at {bcolours.UNDERLINE}https://github.com/Yaveen123/Quizzer{bcolours.ENDC}")
+        print(f"{bcolours.CUSTOMGRAY}To try again, please restart Quizzer.{bcolours.ENDC}")
 
     # Home page and results menus.
     if p_Info['Menu'] == 'Home': # Home page.
@@ -307,14 +321,20 @@ def obtainValidInput(o_PrintMenuInfo, o_ErrorToCheck, o_PossibleInputs): # Print
     return o_Input.lower()
 
 
+try: # This makes sure that the program can access the required folders.
+    os.listdir(f'{os.getcwd()}/Results')
+    os.listdir(f'{os.getcwd()}/Subjects')
+except: 
+    obtainValidInput({'Menu':'DirectoryErr_Results'}, None, [0]) # Displays the error message and doesn't allow the user to leave unless they've killed the terminal (so its a proper reset). 
+
+
 while True:
     g_Menu = [0,0,0,0,0,0,0,0,0,0,0,0]                                                                                                                   # Creates items to form a menu. This is done because you cannot assign to a place in a list that hasn't been created yet.
     g_Menu[0] = int(obtainValidInput({'Menu':'Home'}, 1, ['1', '2']))                                                                                    # Home screen.
     
     if g_Menu[0] == 2: # View results screen.
         while g_Menu[0] == 2:
-
-            g_Logs = os.listdir(os.getcwd() + '/Results')                                                                                                # Get all the past results.
+            g_Logs = os.listdir(f'{os.getcwd()}/Results')                                                                                                # Get all the past results.
             g_AllPossibleOptions = ['e']
             for g_I in range(len(g_Logs)): 
                 g_AllPossibleOptions.append(str(g_I+1))                                                                                                  # Create all the possible options for the user to input. 
@@ -337,5 +357,6 @@ while True:
                             g_Menu[1] = 0
                         else:
                             g_Menu[2] = 0                                                                                                                # Goes back to just viewing the results. 
+            
     else: 
         pass
