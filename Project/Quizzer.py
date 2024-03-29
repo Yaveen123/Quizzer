@@ -32,7 +32,7 @@ class bcolours: # 'joeld', 2008. Coloured text - https://stackoverflow.com/quest
     CUSTOMGRAY = '\033[90m'      # Escape sequence from: https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_.28Select_Graphic_Rendition.29_parameters:~:text=229%2C%E2%80%AF229%2C%E2%80%AF229-,90,-100 
     
  
-def printMenu(p_Info, p_Error):
+def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from here.
     
     os.system('cls') # Kumaran, 2011 https://stackoverflow.com/questions/4810537/how-to-clear-the-screen-in-python - Clears the screen using os module for WINDOWS computers.
 
@@ -62,10 +62,14 @@ def printMenu(p_Info, p_Error):
     if p_Info['Menu'] == 'Results_Main': # Results page.                            Takes 'Results' 
         print(f"{bcolours.CUSTOMGRAY}Home > Past results{bcolours.ENDC}\n")
 
-        for p_I in range(len(p_Info['Results'])): # Parses the past results and prints each item. 
-            print(f"[{p_I + 1}] {p_Info['Results'][p_I][:-3]}")
-        
-        print("\nEnter a past test number to view the result.")
+        if len(p_Info['Results']) > 0:
+            for p_I in range(len(p_Info['Results'])): # Parses the past results and prints each item. 
+                print(f"[{p_I + 1}] {p_Info['Results'][p_I][:-3]}")
+            print("\nEnter a past test number to view the result.")
+        else:
+            print(f"{bcolours.CUSTOMITALIC}There's nothing to show here.\n{bcolours.ENDC}")
+
+
         print("Enter [e] to go back.")
     
     if p_Info["Menu"] == 'Results_ViewResult': # view a specific result.            Takes: 'Path'
@@ -112,21 +116,21 @@ def printMenu(p_Info, p_Error):
                 print(f'\n{bcolours.FAIL}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}') # Shows answer user selected (incorrect)
                 print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}') # Shows the correct answer. 
 
-            print(f"\n{bcolours.CUSTOMGRAY}{g_Separator}")
-            print(f"Test on {p_OpenLog[0]['Subject']}:") # Shows subject.
+        print(f"\n{bcolours.CUSTOMGRAY}{g_Separator}")
+        print(f"Test on {p_OpenLog[0]['Subject']}:") # Shows subject.
 
-            for p_I in range(len(p_OpenLog[0]['Topics'])):
-                print(f'- {p_OpenLog[0]['Topics'][p_I]}') # Shows topics.
-            
-            print(f'{g_Separator}{bcolours.ENDC}')
+        for p_I in range(len(p_OpenLog[0]['Topics'])):
+            print(f'- {p_OpenLog[0]['Topics'][p_I]}') # Shows topics.
+        
+        print(f'{g_Separator}{bcolours.ENDC}')
 
-            print(f'You Scored:   {p_OpenLog[0]['Score']}/{p_OpenLog[0]['AmtQuestions']} ({str((int(p_OpenLog[0]['Score'])/int(p_OpenLog[0]['AmtQuestions'])*100))[:4]}%).') # Shows score.
-            print(f'Time Taken:   {p_OpenLog[0]['TimeTaken']}m{bcolours.CUSTOMGRAY} out of {p_OpenLog[0]['TimeAllocated']}m.{bcolours.ENDC}') # Shows time taken.
+        print(f'You Scored:   {p_OpenLog[0]['Score']}/{p_OpenLog[0]['AmtQuestions']} ({str((int(p_OpenLog[0]['Score'])/int(p_OpenLog[0]['AmtQuestions'])*100))[:4]}%).') # Shows score.
+        print(f'Time Taken:   {p_OpenLog[0]['TimeTaken']}m{bcolours.CUSTOMGRAY} out of {p_OpenLog[0]['TimeAllocated']}m.{bcolours.ENDC}') # Shows time taken.
 
-            print(f'{bcolours.CUSTOMGRAY}{g_Separator}{bcolours.ENDC}\n')
+        print(f'{bcolours.CUSTOMGRAY}{g_Separator}{bcolours.ENDC}\n')
 
-            print('Enter [e] to go back.')
-            print('Enter [d] to delete test.')
+        print('Enter [e] to go back.')
+        print('Enter [d] to delete test.')
 
     if p_Info['Menu'] == 'Results_DeleteResult': #Delete result.                    Takes: 'Path'
         p_OpenFile = open(os.getcwd() + '/' + p_Info['Path'], 'r')
@@ -256,10 +260,9 @@ def printMenu(p_Info, p_Error):
         print('Enter [e] to go back to the home screen.')
 
 
-
 def checkForErrors(c_Error, c_Input, c_PossibleOptions):                             # Checks if valid input.
     if c_Error == 1:                                                                 # Just a general check if the input is a specified possible option.
-        if c_Input in c_PossibleOptions:
+        if c_Input.lower() in c_PossibleOptions:
             return 0
         else:
             return 1                                                                 # To print: "That's not a possible option"
@@ -294,91 +297,45 @@ def checkForErrors(c_Error, c_Input, c_PossibleOptions):                        
             else:
                 return 1                                                             #To print: "That's not a possible option."
 
+
 def obtainValidInput(o_PrintMenuInfo, o_ErrorToCheck, o_PossibleInputs): # Prints the menu and checks if the input is valid. The possible inputs MUST be in string.
     o_ErrorCode = None
     while o_ErrorCode != 0:
         printMenu(o_PrintMenuInfo, o_ErrorCode)
         o_Input = input(g_Prompt)
         o_ErrorCode = checkForErrors(o_ErrorToCheck, o_Input, o_PossibleInputs)      # If the input is invalid, then the checkForErrors module will return a value that ISNT 0, and the lopp continues until the input is valid. 
-    return o_Input
+    return o_Input.lower()
 
 
-print(obtainValidInput({'Menu':'Home'}, 2, [10,'b','c']))
+while True:
+    g_Menu = [0,0,0,0,0,0,0,0,0,0,0,0]                                                                                                                   # Creates items to form a menu. This is done because you cannot assign to a place in a list that hasn't been created yet.
+    g_Menu[0] = int(obtainValidInput({'Menu':'Home'}, 1, ['1', '2']))                                                                                    # Home screen.
+    
+    if g_Menu[0] == 2: # View results screen.
+        while g_Menu[0] == 2:
 
+            g_Logs = os.listdir(os.getcwd() + '/Results')                                                                                                # Get all the past results.
+            g_AllPossibleOptions = ['e']
+            for g_I in range(len(g_Logs)): 
+                g_AllPossibleOptions.append(str(g_I+1))                                                                                                  # Create all the possible options for the user to input. 
 
+            g_PastResult = obtainValidInput({'Menu':'Results_Main', 'Results':g_Logs}, 1, g_AllPossibleOptions)                                          # Shows the results the user can view.
+            if g_PastResult == 'e':                                                                                                                      # If user wants to go back.
+                g_Menu[0] = ''
+            else:
+                g_Menu[1] = 1
+                while g_Menu[1] != 0:
+                    g_Menu[1] = obtainValidInput({'Menu':'Results_ViewResult', 'Path':f'/results/{g_Logs[int(g_PastResult)-1]}'}, 1, ['e','d'])          # Open a specific result.
+                    if g_Menu[1] == 'e':                                                                                                                 # If user wants to go back.
+                        g_Menu[1] = 0
+                    else:
+                        g_Menu[2] = obtainValidInput({'Menu':'Results_DeleteResult', 'Path':f'/results/{g_Logs[int(g_PastResult)-1]}'}, 1, ['e','d'])    # Confirm deletion of a specific result.
 
-# Print the home page.
-""" 
-p_Info = {'Menu':'Home'}
-p_Error = None
-printMenu(p_Info, p_Error)
-"""
-# Print the results page.
-"""
-g_Temp = os.listdir(os.getcwd() + '/results')
-printMenu({'Menu':'Results_Main', 'Results':g_Temp}, 1) 
-"""
-# View a result
-"""
-printMenu({'Menu':'Results_ViewResult', 'Path':'Results/Maths on 2-03-2024 (14.59.21) 5 minutes 4 questions copy.txt'}, 2.1)
-"""
-# Delete a result
-"""
-printMenu({'Menu':'Results_DeleteResult', 'Path':'Results/Maths on 2-03-2024 (14.59.21) 5 minutes 4 questions copy.txt'}, 1)
-"""
-# TestSetup - Setup Main
-"""
-g_Subjects = os.listdir(os.getcwd()+'/Subjects')
-printMenu({'Menu':'TestSetup_Main', 'Subjects':g_Subjects}, 2.1)
-"""
-# TestSetup - Setup Topics
-g_ChosenSubject = 'Math'
-g_ChosenTopics = ['Addition','Multiplication']
-
-"""
-g_Topics = os.listdir(os.getcwd() + '/Subjects/' + g_ChosenSubject)
-printMenu({'Menu':'TestSetup_Topics', 'Subject':g_ChosenSubject,'Topics':g_Topics, 'ChosenTopics':g_ChosenTopics}, 2.2)
-"""
-#TestSetup - Setup Questions
-"""
-printMenu({'Menu':'TestSetup_Questions', 'Subject':g_ChosenSubject, 'MaxQuestions':50},1)
-"""
-#TestSetup - Setup Time
-"""
-printMenu({'Menu':'TestSetup_Time', 'Subject':g_ChosenSubject, 'RecommendedTime':70}, 2)
-"""
-#TestSetup - Final Checks
-"""
-printMenu({'Menu':'TestSetup_FinalCheck', 'Subject':g_ChosenSubject, 'Topics':g_ChosenTopics, 'AmtQuestions':30, 'AmtTime':20}, None)
-"""
-#Test - Main
-"""
-printMenu({
-    'Menu':'Test_Main', 
-    'Subject':g_ChosenSubject, 
-    'QuestionNo.':2,
-    'AmtQuestions':len(g_ChosenTopics)+3, 
-    'TimeRemaining':20, 
-    'Question':'Whats 1+1', 
-    'PossibleAnswers':['10','2','22', '12'], 
-    'SelectedAnswer':2
-    }, 1)
-"""
-#Test - PreExit
-"""
-printMenu({
-    'Menu':'Test_PreExit', 
-    'AmtQuestions':10, 
-    'UnansweredQuestions':[0,3], 
-    'Subject':g_ChosenSubject
-    }, 1)
-"""
-#End Test - End
-"""
-printMenu({'Menu':'Test_End', 'Subject':g_ChosenSubject}, 1)
-"""
-#End Test - Out of time
-"""
-printMenu({'Menu':'Test_OutOfTime', 'Subject':g_ChosenSubject}, 1)
-"""
-
+                        if g_Menu[2] == 'd':                                                                                                             # User definitely wants to delete this result.
+                            os.remove(f'{os.getcwd()}/results/{g_Logs[int(g_PastResult)-1]}')                                                            # Deletes the specified result from the results folder. 
+                            g_Menu[2] = 0                                                                                                                # Goes back to the view results main page.
+                            g_Menu[1] = 0
+                        else:
+                            g_Menu[2] = 0                                                                                                                # Goes back to just viewing the results. 
+    else: 
+        pass
