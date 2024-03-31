@@ -82,10 +82,10 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
                 print(f"[{p_I + 1}] {p_Info['Results'][p_I][:-3]}")
             print("\nEnter a past test number to view the result.")
         else:
-            print(f"{bcolours.CUSTOMITALIC}There's nothing to show here.\n{bcolours.ENDC}")
+            print(f"{bcolours.CUSTOMITALIC}We couldn't find any past tests to show here.\n{bcolours.ENDC}")
 
 
-        print("Enter [e] to go back.")
+        print(f"{bcolours.CUSTOMGRAY}Enter [e] to go back.{bcolours.ENDC}")
     
     if p_Info['Menu'] == 'Results_ViewResult': # view a specific result.            Takes: 'Path'
         try: # Tries to open the file. If the program CAN open the file but the information inside it isn't readable, it still raises an error. 
@@ -218,7 +218,7 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
                 print("Enter [s] when you're done.")
             print(f"{bcolours.CUSTOMGRAY}Enter [e] to go back.{bcolours.ENDC}")
         else:
-            print(f"{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']}{bcolours.ENDC}\n\nWe couldn't find any question sets inside {p_Info['Subject']}.\n") 
+            print(f"{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']}{bcolours.ENDC}\n\n{bcolours.CUSTOMITALIC}We couldn't find any question sets inside {p_Info['Subject']}.{bcolours.ENDC}\n") 
             print(f"{bcolours.CUSTOMGRAY}Enter [e] to go back.{bcolours.ENDC}")
 
     if p_Info['Menu'] == 'TestSetup_Questions': # Choose amount of questions.       Takes: 'MaxQuestions'
@@ -582,7 +582,24 @@ while True:
                                                     if g_test_QuestionNum != int(g_ChosenAmtQuestions):
                                                         g_test_QuestionNum += 1
                                                 elif g_Input == 'k':
-                                                    break
+                                                    g_test_UnansweredQuestions = []
+                                                    g_AllPossibleOptions = []
+                                                    for g_I in range(len(g_test_Questions)-1):
+                                                        if g_test_Questions[g_I+1]['SelectedAnswer'] == None:
+                                                            g_test_UnansweredQuestions.append(g_I)
+
+                                                    for g_I in range(len(g_test_Questions)-1):
+                                                        g_AllPossibleOptions.append(str(g_I+1))
+                                                    g_AllPossibleOptions.append('e')
+                                                    g_AllPossibleOptions.append('k')
+
+                                                    g_Input = obtainValidInput({'Menu':'Test_PreExit', 'AmtQuestions':int(g_ChosenAmtQuestions), 'UnansweredQuestions':g_test_UnansweredQuestions, 'Subject':g_ChosenSubject}, 1, g_AllPossibleOptions)
+                                                    if g_Input == 'e':
+                                                        pass
+                                                    elif g_Input == 'k':
+                                                        break
+                                                    else:
+                                                        g_test_QuestionNum = int(g_Input)
                                                 else:
                                                     g_test_Questions[g_test_QuestionNum]['SelectedAnswer'] = g_Alpha.index(g_Input) # Coventry, 2008 Finds index of given input https://stackoverflow.com/questions/176918/how-to-find-the-index-for-a-given-item-in-a-list
 
@@ -591,7 +608,7 @@ while True:
                                             else: 
                                                 g_Input = obtainValidInput({'Menu':'Test_End', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1]}, 1, ['s', 'e'])
                                             
-                                            g_test_Questions[0]['TimeTaken'] = str(round(int(time.time()) - g_test_StartTime))
+                                            g_test_Questions[0]['TimeTaken'] = str(round((int(time.time()) - g_test_StartTime)/60))
 
                                             try:
                                                 open(g_test_LogName, 'w').close() # Parker, 2022 Clears everything in file. https://stackoverflow.com/questions/2769061/how-to-erase-the-file-contents-of-text-file-in-python
