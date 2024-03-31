@@ -1,9 +1,0 @@
-{'Subject':'Math','Topics':['Multiplication.txt'], 'TimeTaken':None, 'TimeAllocated':10, 'Date':'2024-03-31 00-59-58', 'Score':None, 'AmtQuestions':10, 'Type':'Test'}{'Question': 'What is 3 x 8', 'Answers': ['19', '24', '7', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
-{'Question': 'What is 2 x 9', 'Answers': ['12', '18', '5', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}{'Question': 'What is 3 x 4', 'Answers': ['8', '12', '5', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
-{'Question': 'What is 8 x 3', 'Answers': ['15', '24', '6', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
-{'Question': 'What is 4 x 6', 'Answers': ['18', '24', '9', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
-{'Question': 'What is 6 x 2', 'Answers': ['9', '12', '3', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
-{'Question': 'What is 9 x 4', 'Answers': ['25', '36', '12', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
-{'Question': 'What is 7 x 5', 'Answers': ['28', '35', '10', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
-{'Question': 'What is 2 x 7', 'Answers': ['10', '14', '4', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
-{'Question': 'What is 5 x 1', 'Answers': ['4', '5', '1', '0'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
