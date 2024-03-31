@@ -115,12 +115,12 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
                     if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']:                                                                    # If the user selected from the correct answer...
                         for p_J in range(len(p_Row['Answers'])):
                             if p_J == p_Row['SelectedAnswer']: 
-                                print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')                       # Print green if correct.
+                                print(f"{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}")                       # Print green if correct.
                             else:
-                                print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}') 
+                                print(f"   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}") 
 
-                        print(f'\n{bcolours.OKGREEN}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')
-                        print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')
+                        print(f"\n{bcolours.OKGREEN}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}")
+                        print(f"   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}")
                     
                     else:                                                                                                                    # If the user selected the incorrect answer...
                         for p_J in range(len(p_Row['Answers'])):                                                                             # Print all the answers, except this time theres an incorrect answer.
