@@ -1,0 +1,3 @@
+{'Subject': 'Math', 'Topics': ['Addition.txt'], 'TimeTaken': '12', 'TimeAllocated': 2, 'Date': '2024-03-31 15-45-56', 'Score': 0, 'AmtQuestions': 2, 'Type': 'Test'}
+{'Question': 'What is 4 + 5', 'Answers': ['7', '9', '2', '1'], 'SelectedAnswer': 1, 'CorrectAnswer': 0}
+{'Question': 'What is 2 + 3', 'Answers': ['10', '5', '22', '12'], 'SelectedAnswer': 1, 'CorrectAnswer': 2}
