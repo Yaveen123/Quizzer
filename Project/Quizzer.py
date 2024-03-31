@@ -33,7 +33,6 @@ class bcolours: # 'joeld', 2008. Coloured text - https://stackoverflow.com/quest
     CUSTOMITALIC = '\033[3m'     # Escape sequence from: https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_.28Select_Graphic_Rendition.29_parameters:~:text=3-,Italic,-Not%20widely%20supported
     CUSTOMGRAY = '\033[90m'      # Escape sequence from: https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_.28Select_Graphic_Rendition.29_parameters:~:text=229%2C%E2%80%AF229%2C%E2%80%AF229-,90,-100 
     
- 
 def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from here.
     
     os.system('cls') # Kumaran, 2011 https://stackoverflow.com/questions/4810537/how-to-clear-the-screen-in-python - Clears the screen using os module for WINDOWS computers.
@@ -258,10 +257,12 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
         
         print('\nEnter the corresponding letter to select your answer.')
 
-        if p_Info['QuestionNo.'] == 1:                                                                                               # If the user is on the first question, they cannot go back.
+        if p_Info['AmtQuestions'] == '1':
+            print(f'{bcolours.CUSTOMGRAY}Enter [k] to finish test.{bcolours.ENDC}')
+        elif int(p_Info['QuestionNo.']) == 1:                                                                                               # If the user is on the first question, they cannot go back.
             print(f"{bcolours.CUSTOMGRAY}Enter [s] to go forward.")
             print(f'Enter [k] to finish test.{bcolours.ENDC}')
-        elif p_Info['QuestionNo.'] >= p_Info['AmtQuestions']:                                                                        # If the user is on (or somehow further) than the last question, they cannot go forward. 
+        elif int(p_Info['QuestionNo.']) >= int(p_Info['AmtQuestions']):                                                                        # If the user is on (or somehow further) than the last question, they cannot go forward. 
             print(f'{bcolours.CUSTOMGRAY}Enter [e] to go back.')
             print(f'Enter [k] to finish test.{bcolours.ENDC}')
         else:                                                                                                                        # Show all avaliable options if the user can go forward or back. 
@@ -302,7 +303,6 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
         print(f"\n{bcolours.BOLD}Out of time! ⌚{bcolours.ENDC}\nYour last question wasn't recorded.\n")
         print('Enter [s] to view results.')
         print('Enter [e] to go back to the home screen.')
-
 
 def checkForErrors(c_Error, c_Input, c_PossibleOptions):                             # Checks if valid input.
     if c_Error == 1:                                                                 # Just a general check if the input is a specified possible option.
@@ -495,9 +495,11 @@ while True:
                                             g_Menu[4] = 0 
                                         else:
                                             g_test_Questions = []
+                                            g_test_QuestionNum = 1
                                             g_Temp = '' 
                                             g_RecursionMax = 0
                                             g_I = 0
+                                            g_test_LogName = '' 
 
                                             while g_I < int(g_ChosenAmtQuestions):
                                                 
@@ -530,13 +532,21 @@ while True:
                                                 print(f"You specified {g_ChosenAmtQuestions} questions, however we could only generate a question set with {len(g_test_Questions)} questions.")
                                                 print(f"{bcolours.CUSTOMGRAY}This may be due to corrupt question data.\n{bcolours.ENDC}")
                                                 input(f"[Enter] to continue\n>>")
-                                            
-                                            g_test_Log = open(f'{getWorkingDirectory()}/Results/{g_AllSubjects[int(g_ChosenSubject)-1]} test on {str(datetime.today().strftime('%Y-%m-%d %H-%M-%S'))} {g_ChosenAmtTime} minutes {g_ChosenAmtQuestions} .txt', 'a')           # 'Diegueus9', 2015, displays date in YYYY-MM-DD form. https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python   
-                                            input(f'{getWorkingDirectory()}/Results/{g_AllSubjects[int(g_ChosenSubject)-1]} test on {datetime.today().strftime('%Y-%m-%d')} {g_ChosenAmtTime} minutes {g_ChosenAmtQuestions} questions.txt')                        # Connel, 2014 Open file in append mode. https://stackoverflow.com/questions/4706499/how-do-i-append-to-a-file 
 
-                                            g_test_Log.write('{' + f"'Subject':'{g_AllSubjects[int(g_ChosenSubject)-1]}','Topics':{g_ChosenTopics}, 'TimeTaken':None, 'TimeAllocated':{g_ChosenAmtTime}, 'Date':'{datetime.today().strftime('%Y-%m-%d %H-%M-%S')}', 'Score':None, 'AmtQuestions':{g_ChosenAmtQuestions}, 'Type':'Test'" + '}')
+                                            g_test_LogName = f'{getWorkingDirectory()}/Results/{g_AllSubjects[int(g_ChosenSubject)-1]} on {str(datetime.today().strftime('%Y-%m-%d'))} ({str(datetime.today().strftime('%H-%M-%S'))}) {g_ChosenAmtTime} minutes {g_ChosenAmtQuestions} questions.txt'
+                                            g_test_Log = open(g_test_LogName, 'a')           # 'Diegueus9', 2015, displays date in YYYY-MM-DD form. https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python   
+                                            
+                                            g_test_Log.write('{' + f"'Subject':'{g_AllSubjects[int(g_ChosenSubject)-1]}','Topics':{g_ChosenTopics}, 'TimeTaken':None, 'TimeAllocated':{g_ChosenAmtTime}, 'Date':'{datetime.today().strftime('%Y-%m-%d %H-%M-%S')}', 'Score':None, 'AmtQuestions':{g_ChosenAmtQuestions}, 'Type':'Test'" + '}' + f'\n')
                                             
                                             for g_I in g_test_Questions:
-                                                g_test_Log.write(g_I)
+                                                g_test_Log.write(f"{g_I.strip()}\n")     
                                             
+
+                                            g_test_Log = open(g_test_LogName, 'r')
+                                            g_test_Questions = []
+                                            for g_I in g_test_Log:
+                                                g_test_Questions.append(ast.literal_eval(g_I))                                   
                                             g_test_Log.close()
+
+                                            while True:
+                                                g_Input = obtainValidInput({'Menu':'Test_Main', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'QuestionNo.':g_test_QuestionNum, 'AmtQuestions':g_ChosenAmtQuestions, 'TimeRemaining':10, 'Question':g_test_Questions[g_test_QuestionNum]['Question'], 'PossibleAnswers':g_test_Questions[g_test_QuestionNum]['Answers'], 'SelectedAnswer':g_test_Questions[g_test_QuestionNum]['SelectedAnswer']}, 1, ['a','b','c','d','e','s','k'])
