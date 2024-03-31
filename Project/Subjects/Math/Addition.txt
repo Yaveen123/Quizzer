@@ -1,6 +1,0 @@
-{'Subject':'Maths','Topic':'Addition'}
-{'Question':'What is 2 + 3', 'Answers':['10','5','22', '12'], 'SelectedAnswer':None, 'CorrectAnswer':2}
-{'Question': 'What is 1 + 2', 'Answers': ['3', '5', '7', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
-{'Question': 'What is 4 + 5', 'Answers': ['7', '9', '2', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
-{'Question': 'What is 7 + 3', 'Answers': ['8', '10', '5', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
-{'Question': 'What is 10 + 8', 'Answers': ['14', '18', '6', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
