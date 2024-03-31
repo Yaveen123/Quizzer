@@ -100,37 +100,49 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
 
             print(f"{bcolours.CUSTOMGRAY}Home > Past results > {p_OpenLog[0]['Subject']} on {p_OpenLog[0]['Date']}{bcolours.ENDC}") 
 
+            p_K = 0
             for p_I in range(len(p_OpenLog)-1): 
                 p_I = p_I + 1
                 p_Row = p_OpenLog[p_I] 
                 # Print the question.
                 if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']: #If the question is correct, add ✅ else ❌ 
+                    p_K += 1
                     print(f"\n{p_I}. ✅ {p_Row['Question']}")
                 else:
                     print(f"\n{p_I}. ❌ {p_Row['Question']}") 
                 # Print the possible answers that the user could've selected from.
-                if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']:                                                                    # If the user selected from the correct answer...
-                    for p_J in range(len(p_Row['Answers'])):
-                        if p_J == p_Row['SelectedAnswer']: 
-                            print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')                       # Print green if correct.
-                        else:
-                            print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}') 
-
-                    print(f'\n{bcolours.OKGREEN}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')
-                    print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')
-                
-                else:                                                                                                                    # If the user selected the incorrect answer...
-                    for p_J in range(len(p_Row['Answers'])):                                                                             # Print all the answers, except this time theres an incorrect answer.
-                        if p_J == p_Row['SelectedAnswer']:
-                            print(f'{bcolours.FAIL}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}') # Print red if incorrect.
-                        else:
-                            if p_J == p_Row['CorrectAnswer']:
-                                print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')                   # Print green if correct answer (but user didn't choose it)
+                if p_Row['SelectedAnswer'] != None:
+                    if p_Row['SelectedAnswer'] == p_Row['CorrectAnswer']:                                                                    # If the user selected from the correct answer...
+                        for p_J in range(len(p_Row['Answers'])):
+                            if p_J == p_Row['SelectedAnswer']: 
+                                print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')                       # Print green if correct.
                             else:
-                                print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}')
+                                print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}') 
 
-                    print(f'\n{bcolours.FAIL}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')                   # Shows answer user selected (incorrect)
-                    print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')                                                     # Shows the correct answer. 
+                        print(f'\n{bcolours.OKGREEN}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')
+                        print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')
+                    
+                    else:                                                                                                                    # If the user selected the incorrect answer...
+                        for p_J in range(len(p_Row['Answers'])):                                                                             # Print all the answers, except this time theres an incorrect answer.
+                            if p_J == p_Row['SelectedAnswer']:
+                                print(f'{bcolours.FAIL}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}') # Print red if incorrect.
+                            else:
+                                if p_J == p_Row['CorrectAnswer']:
+                                    print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')                   # Print green if correct answer (but user didn't choose it)
+                                else:
+                                    print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}')
+
+                        print(f'\n{bcolours.FAIL}   Selected: {p_Row['Answers'][p_Row['SelectedAnswer']]}{bcolours.ENDC}')                   # Shows answer user selected (incorrect)
+                        print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')                                                     # Shows the correct answer. 
+                else:
+                    for p_J in range(len(p_Row['Answers'])):                                                                             # Print all the answers, except this time theres an incorrect answer.
+                        if p_J == p_Row['CorrectAnswer']:
+                            print(f'{bcolours.OKGREEN}   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}{bcolours.ENDC}')                   # Print green if correct answer (but user didn't choose it)
+                        else:
+                            print(f'   [{g_Alpha[p_J]}] {p_Row['Answers'][p_J]}')
+
+                    print(f'\n{bcolours.FAIL}   No answer selected.{bcolours.ENDC}')                   # Shows answer user selected (incorrect)
+                    print(f'   Correct: {p_Row['Answers'][p_Row['CorrectAnswer']]}')  
 
             print(f"\n{bcolours.CUSTOMGRAY}{g_Separator}")
             print(f"Test on {p_OpenLog[0]['Subject']}:")                                                                                 # Shows subject.
@@ -140,7 +152,7 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
             
             print(f'{g_Separator}{bcolours.ENDC}')
 
-            print(f'You Scored:   {p_OpenLog[0]['Score']}/{p_OpenLog[0]['AmtQuestions']} ({str((int(p_OpenLog[0]['Score'])/int(p_OpenLog[0]['AmtQuestions'])*100))[:4]}%).') # Shows score.
+            print(f'You Scored:   {p_K}/{p_OpenLog[0]['AmtQuestions']} ({str((int(p_K)/int(p_OpenLog[0]['AmtQuestions'])*100))[:4]}%).') # Shows score.
             print(f'Time Taken:   {p_OpenLog[0]['TimeTaken']}m{bcolours.CUSTOMGRAY} out of {p_OpenLog[0]['TimeAllocated']}m.{bcolours.ENDC}') # Shows time taken.
 
             print(f'{bcolours.CUSTOMGRAY}{g_Separator}{bcolours.ENDC}\n')
@@ -371,10 +383,16 @@ def checkValidQuestion(v_Dict):
 
 
 getWorkingDirectory()
+g_Menu = [0,0,0,0,0,0,0] 
 while True:
-    g_Menu = [0,0,0,0,0,0,0,0,0,0,0,0]                                                                                                                   # Creates items to form a menu. This is done because you cannot assign to a place in a list that hasn't been created yet.
-    g_Menu[0] = int(obtainValidInput({'Menu':'Home'}, 1, ['1', '2']))                                                                                    # Home screen.
+
+    if g_Menu[0] == 2:
+        pass
+    else:
+        g_Menu = [0,0,0,0,0,0,0]                                                                                                                   # Creates items to form a menu. This is done because you cannot assign to a place in a list that hasn't been created yet.
+        g_Menu[0] = int(obtainValidInput({'Menu':'Home'}, 1, ['1', '2']))                                                                                    # Home screen.
     
+
     if g_Menu[0] == 2: # View results screen.
         while g_Menu[0] == 2:
             g_Logs = os.listdir(f'{getWorkingDirectory()}/Results')                                                                                                # Get all the past results.
@@ -406,7 +424,7 @@ while True:
                             g_Menu[2] = 0                                                                                                                # Goes back to just viewing the results. 
             
     else: 
-        while g_Menu[0] != 0:
+        while g_Menu[0] != 0 and g_Menu[0] != 2:
             g_AllSubjects = os.listdir(f'{getWorkingDirectory()}/Subjects')
             g_AllPossibleOptions = ['e']
             
@@ -536,17 +554,58 @@ while True:
                                             g_test_LogName = f'{getWorkingDirectory()}/Results/{g_AllSubjects[int(g_ChosenSubject)-1]} on {str(datetime.today().strftime('%Y-%m-%d'))} ({str(datetime.today().strftime('%H-%M-%S'))}) {g_ChosenAmtTime} minutes {g_ChosenAmtQuestions} questions.txt'
                                             g_test_Log = open(g_test_LogName, 'a')           # 'Diegueus9', 2015, displays date in YYYY-MM-DD form. https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python   
                                             
-                                            g_test_Log.write('{' + f"'Subject':'{g_AllSubjects[int(g_ChosenSubject)-1]}','Topics':{g_ChosenTopics}, 'TimeTaken':None, 'TimeAllocated':{g_ChosenAmtTime}, 'Date':'{datetime.today().strftime('%Y-%m-%d %H-%M-%S')}', 'Score':None, 'AmtQuestions':{g_ChosenAmtQuestions}, 'Type':'Test'" + '}' + f'\n')
+                                            g_test_Log.write('{' + f"'Subject':'{g_AllSubjects[int(g_ChosenSubject)-1]}','Topics':{g_ChosenTopics}, 'TimeTaken':0, 'TimeAllocated':{g_ChosenAmtTime}, 'Date':'{datetime.today().strftime('%Y-%m-%d %H-%M-%S')}', 'Score':0, 'AmtQuestions':{g_ChosenAmtQuestions}, 'Type':'Test'" + '}' + f'\n')
                                             
                                             for g_I in g_test_Questions:
                                                 g_test_Log.write(f"{g_I.strip()}\n")     
                                             
-
                                             g_test_Log = open(g_test_LogName, 'r')
                                             g_test_Questions = []
                                             for g_I in g_test_Log:
                                                 g_test_Questions.append(ast.literal_eval(g_I))                                   
                                             g_test_Log.close()
 
+                                            g_test_StartTime = int(time.time())
+                                            g_test_EndTime = g_test_StartTime + (int(g_ChosenAmtTime)*60)
+                                            g_test_CurrentTime = round((g_test_EndTime - g_test_StartTime)/60)
+
                                             while True:
-                                                g_Input = obtainValidInput({'Menu':'Test_Main', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'QuestionNo.':g_test_QuestionNum, 'AmtQuestions':g_ChosenAmtQuestions, 'TimeRemaining':10, 'Question':g_test_Questions[g_test_QuestionNum]['Question'], 'PossibleAnswers':g_test_Questions[g_test_QuestionNum]['Answers'], 'SelectedAnswer':g_test_Questions[g_test_QuestionNum]['SelectedAnswer']}, 1, ['a','b','c','d','e','s','k'])
+                                                g_Input = obtainValidInput({'Menu':'Test_Main', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'QuestionNo.':g_test_QuestionNum, 'AmtQuestions':g_ChosenAmtQuestions, 'TimeRemaining':round(g_test_CurrentTime), 'Question':g_test_Questions[g_test_QuestionNum]['Question'], 'PossibleAnswers':g_test_Questions[g_test_QuestionNum]['Answers'], 'SelectedAnswer':g_test_Questions[g_test_QuestionNum]['SelectedAnswer']}, 1, ['a','b','c','d','e','s','k'])
+                                                g_test_CurrentTime = (g_test_EndTime - int(time.time()))/60
+
+                                                if g_test_CurrentTime < 0:
+                                                    break
+                                                if g_Input == 'e':
+                                                    if g_test_QuestionNum != 1:
+                                                        g_test_QuestionNum = g_test_QuestionNum - 1 
+                                                elif g_Input == 's':
+                                                    if g_test_QuestionNum != int(g_ChosenAmtQuestions):
+                                                        g_test_QuestionNum += 1
+                                                elif g_Input == 'k':
+                                                    break
+                                                else:
+                                                    g_test_Questions[g_test_QuestionNum]['SelectedAnswer'] = g_Alpha.index(g_Input) # Coventry, 2008 Finds index of given input https://stackoverflow.com/questions/176918/how-to-find-the-index-for-a-given-item-in-a-list
+
+                                            if g_test_CurrentTime < 0:
+                                                g_Input = obtainValidInput({'Menu':'Test_OutOfTime', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1]}, 1, ['s', 'e'])
+                                            else: 
+                                                g_Input = obtainValidInput({'Menu':'Test_End', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1]}, 1, ['s', 'e'])
+                                            
+                                            g_test_Questions[0]['TimeTaken'] = str(round(int(time.time()) - g_test_StartTime))
+
+                                            try:
+                                                open(g_test_LogName, 'w').close() # Parker, 2022 Clears everything in file. https://stackoverflow.com/questions/2769061/how-to-erase-the-file-contents-of-text-file-in-python
+                                                
+                                                g_ReadFile = open(g_test_LogName, 'a')
+                                                for g_I in g_test_Questions:
+                                                    g_ReadFile.write(f'{str(g_I)}\n')
+                                                
+                                                g_ReadFile.close()
+                                            except:
+                                                print(f"{bcolours.WARNING}Quizzer couldn't save this test.\n{bcolours.CUSTOMGRAY}We couldn't access the created log file.\n")
+                                                input('>>')
+
+                                            if g_Input == 's':
+                                                g_Menu = [2,0,0,0,0,0,0] 
+                                            else:
+                                                g_Menu = [0,0,0,0,0,0,0] 
