@@ -1,0 +1,9 @@
+{'Subject':'Maths','Topic':'Multiplication'}
+{'Question': 'There are 12 cookies. If you share them equally among 3 friends, how many cookies does each friend get?', 'Answers': ['4', '9', '1', '15'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
+{'Question': 'You have 20 pencils and want to put them in boxes that hold 4 pencils each. How many boxes do you need?', 'Answers': ['10', '5', '3', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 2}
+{'Question': 'A farmer has 18 apples and picks 2 baskets. If he divides the apples equally among the baskets, how many apples are in each basket?', 'Answers': ['9', '12', '6', '2'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
+{'Question': 'There are 16 cupcakes and you want to share them with your 2 siblings. How many cupcakes will each of you get (including yourself)?', 'Answers': ['4', '8', '12', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
+{'Question': 'The bakery has 24 donuts and sells them in packs of 3. How many packs of donuts can they sell?', 'Answers': ['12', '8', '6', '4'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
+{'Question': 'A recipe requires 4 cups of flour. If you only have 28 cups of flour, how many batches of the recipe can you make?', 'Answers': ['7', '4', '10', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
+{'Question': 'The library has 54 books and needs to shelve them in rows of 6. How many rows will they need?', 'Answers': ['12', '9', '3', '18'], 'SelectedAnswer': None, 'CorrectAnswer': 2}
+{'Question': 'Ethan has 21 stickers and wants to share them equally with his 3 friends. How many stickers will each friend get?', 'Answers': ['7', '14', '28', '1'], 'SelectedAnswer': None, 'CorrectAnswer': 0}

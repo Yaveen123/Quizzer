@@ -203,14 +203,14 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
     if p_Info['Menu'] == 'TestSetup_Topics': # Topics selector page.                Takes: 'Subject', 'Topics', 'ChosenTopics'
         if len(p_Info['Topics']) > 0:
             print(f"{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']}{bcolours.ENDC}") 
-            print(f"{bcolours.CUSTOMGRAY}Please note that these question sets are AI Generated{bcolours.ENDC}\n")                         # Notifies user that the question sets are primarily AI. 
+            print(f"{bcolours.CUSTOMGRAY}Please note that these question sets are AI Generated{bcolours.ENDC}\n")                       # Notifies user that the question sets are primarily AI. 
             print(f"We found {len(p_Info['Topics'])} question sets inside {p_Info['Subject']}")                                         # Shows amt of question sets inside the folder.
 
-            for p_I in range(len(p_Info['Topics'])):                                                                                      # Print each avaliable question set (called 'topic')
+            for p_I in range(len(p_Info['Topics'])):                                                                                    # Print each avaliable question set (called 'topic')
                 if p_Info['Topics'][p_I] in p_Info['ChosenTopics']:
-                    print(f"   [{p_I+1}]  ✅  {p_Info['Topics'][p_I][:-4]}")                                                              # If the user has selected it, print with ✅
+                    print(f"   [{p_I+1}]  ✅  {p_Info['Topics'][p_I][:-4]}")                                                            # If the user has selected it, print with ✅
                 else:
-                    print(f"   [{p_I+1}]  ⏺   {p_Info['Topics'][p_I][:-4]}")                                                             # Else print with ⏺
+                    print(f"   [{p_I+1}]  ⏺   {p_Info['Topics'][p_I][:-4]}")                                                           # Else print with ⏺
             print(f"\nEnter the corresponding number to add/remove a topic.")
             if len(p_Info['ChosenTopics']) < 1:
                 print(f"{bcolours.BOLD}Select at least 1 question set to continue.{bcolours.ENDC}")
@@ -223,8 +223,8 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
 
     if p_Info['Menu'] == 'TestSetup_Questions': # Choose amount of questions.       Takes: 'MaxQuestions'
         print(f"{bcolours.CUSTOMGRAY}Home > Take a test > {p_Info['Subject']} > Questions {bcolours.ENDC}\n")
-        if p_Info['CorruptQuestions'] > 0:
-            print(f"{bcolours.WARNING}{bcolours.CUSTOMITALIC}{p_Info['CorruptQuestions']} question/s could not be read.\n{bcolours.ENDC}")
+        if p_Info['CorruptQuestions'] > 0:                                                                                           # (Not in pseudocode) Shows the amount of questions/sets that are invalid. 
+            print(f"{bcolours.WARNING}{bcolours.CUSTOMITALIC}{p_Info['CorruptQuestions']} question/s could not be read.\n{bcolours.ENDC}") 
         if p_Info['CorruptSets'] > 0:
             print(f"{bcolours.WARNING}{bcolours.CUSTOMITALIC}{p_Info['CorruptSets']} set/s could not be accessed.\n{bcolours.ENDC}")
         
@@ -271,10 +271,10 @@ def printMenu(p_Info, p_Error): #Main print menu. Everything printed comes from 
 
         if p_Info['AmtQuestions'] == '1':
             print(f"{bcolours.CUSTOMGRAY}Enter [k] to finish test.{bcolours.ENDC}")
-        elif int(p_Info['QuestionNo.']) == 1:                                                                                               # If the user is on the first question, they cannot go back.
+        elif int(p_Info['QuestionNo.']) == 1:                                                                                        # If the user is on the first question, they cannot go back.
             print(f"{bcolours.CUSTOMGRAY}Enter [s] to go forward.")
             print(f"Enter [k] to finish test.{bcolours.ENDC}")
-        elif int(p_Info['QuestionNo.']) >= int(p_Info['AmtQuestions']):                                                                        # If the user is on (or somehow further) than the last question, they cannot go forward. 
+        elif int(p_Info['QuestionNo.']) >= int(p_Info['AmtQuestions']):                                                              # If the user is on (or somehow further) than the last question, they cannot go forward. 
             print(f"{bcolours.CUSTOMGRAY}Enter [e] to go back.")
             print(f"Enter [k] to finish test.{bcolours.ENDC}")
         else:                                                                                                                        # Show all avaliable options if the user can go forward or back. 
@@ -369,10 +369,10 @@ def getWorkingDirectory():                                                      
     except: 
         obtainValidInput({'Menu':'DirectoryErr_Results'}, None, [0])                                                                                     # Displays the error message and doesn't allow the user to leave unless they've killed the terminal (so its a proper reset). 
 
-def checkValidQuestion(v_Dict):
+def checkValidQuestion(v_Dict): # Checks if the question is valid. 
     try:
-        if type(v_Dict['Question']) == str and type(v_Dict['Answers']) == list and v_Dict['SelectedAnswer'] == None and type(v_Dict['CorrectAnswer']) == int:
-            if len(v_Dict['Answers']) == 4 and v_Dict['CorrectAnswer'] < 4:
+        if type(v_Dict['Question']) == str and type(v_Dict['Answers']) == list and v_Dict['SelectedAnswer'] == None and type(v_Dict['CorrectAnswer']) == int: # Checks if all the keys are correct and the datatypes inside the keys are correct.
+            if len(v_Dict['Answers']) == 4 and v_Dict['CorrectAnswer'] < 4: #Checks if more vague things like the amount of answers and correct answer.
                 return 0
             else:
                 return 1
@@ -380,6 +380,8 @@ def checkValidQuestion(v_Dict):
             return 1
     except:
         return 1
+
+
 
 
 getWorkingDirectory()
@@ -395,7 +397,7 @@ while True:
 
     if g_Menu[0] == 2: # View results screen.
         while g_Menu[0] == 2:
-            g_Logs = os.listdir(f"{getWorkingDirectory()}/Results")                                                                                                # Get all the past results.
+            g_Logs = os.listdir(f"{getWorkingDirectory()}/Results")                                                                                      # Get all the past results.
             g_AllPossibleOptions = ['e']
             for g_I in range(len(g_Logs)): 
                 g_AllPossibleOptions.append(str(g_I+1))                                                                                                  # Create all the possible options for the user to input. 
@@ -424,81 +426,80 @@ while True:
                             g_Menu[2] = 0                                                                                                                # Goes back to just viewing the results. 
             
     else: 
-        while g_Menu[0] != 0 and g_Menu[0] != 2:
-            g_AllSubjects = os.listdir(f"{getWorkingDirectory()}/Subjects")
+        while g_Menu[0] != 0 and g_Menu[0] != 2:  
+            g_AllSubjects = os.listdir(f"{getWorkingDirectory()}/Subjects")                                                                             # Get a list of all the valid subject.  
             g_AllPossibleOptions = ['e']
             
-            for g_I in range(len(g_AllSubjects)):
-                g_AllPossibleOptions.append(str(g_I+1))
+            for g_I in range(len(g_AllSubjects)):                                                                                                       # Obtain all valid indexes of the subjects to select from
+                g_AllPossibleOptions.append(str(g_I+1)) 
             
-            g_ChosenSubject = obtainValidInput({'Menu':'TestSetup_Main', 'Subjects':g_AllSubjects}, 1, g_AllPossibleOptions)
+            g_ChosenSubject = obtainValidInput({'Menu':'TestSetup_Main', 'Subjects':g_AllSubjects}, 1, g_AllPossibleOptions)                             # Show the subject selector screen.
             
-            if g_ChosenSubject == 'e':
+            if g_ChosenSubject == 'e':                                                                                                                   # If the user wants to go back.
                 g_Menu[0] = 0
             else:
-                g_Menu[1] = 1
+                g_Menu[1] = 1 
                 g_ChosenTopics = []
                 while g_Menu[1] != 0:
-                    g_Topics = os.listdir(f"{getWorkingDirectory()}/Subjects/{g_AllSubjects[int(g_ChosenSubject)-1]}")
+                    g_Topics = os.listdir(f"{getWorkingDirectory()}/Subjects/{g_AllSubjects[int(g_ChosenSubject)-1]}")                                   # Gets all the topics inside the chosen subject.
 
                     g_AllPossibleOptions = ['e','s']
 
-                    for g_I in range(len(g_Topics)):
+                    for g_I in range(len(g_Topics)):                                                                                                     # Gets all the possible options to select from. 
                         g_AllPossibleOptions.append(str(g_I+1))
                     
-                    if len(g_AllPossibleOptions) > 2:
+                    if len(g_AllPossibleOptions) > 2:                                                                                                    # Checks if theres any question sets to actually choose from. 
                         while True:
-
-                            g_Input = obtainValidInput({'Menu':'TestSetup_Topics', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'ChosenTopics':g_ChosenTopics, 'Topics':g_Topics}, 1, g_AllPossibleOptions)
-                            if g_Input == 's':
-                                if len(g_ChosenTopics) > 0:
+                            g_Input = obtainValidInput({'Menu':'TestSetup_Topics', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'ChosenTopics':g_ChosenTopics, 'Topics':g_Topics}, 1, g_AllPossibleOptions) # Opens the topics selector page.
+                            if g_Input == 's': 
+                                if len(g_ChosenTopics) > 0:                                                                                              #The user cannot proceed if they have not selected any topics.
                                     g_Menu[2] = 1
                                     break
-                            elif g_Input == 'e':
+                            elif g_Input == 'e':                                                                                                         # If the user wants to go back.
                                 g_Menu[1] = 0
                                 break
                             else:
-                                if g_Topics[int(g_Input)-1] in g_ChosenTopics:
+                                if g_Topics[int(g_Input)-1] in g_ChosenTopics:                                                                           # Add an item to the selected topics.
                                     g_ChosenTopics.remove(g_Topics[int(g_Input)-1])
                                 else:
                                     g_ChosenTopics.append(g_Topics[int(g_Input)-1])
                     
                     else:
-                        g_Input = obtainValidInput({'Menu':'TestSetup_Topics', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'ChosenTopics':g_ChosenTopics, 'Topics':g_Topics}, 1, ['e'])
+                        g_Input = obtainValidInput({'Menu':'TestSetup_Topics', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'ChosenTopics':g_ChosenTopics, 'Topics':g_Topics}, 1, ['e']) # Open the topics selector menu but show that there aren't any topics to select from inside that subject.
                         g_Menu[1] = 0
                     
                     
-                    while g_Menu[2] == 1:
-                        print(g_ChosenTopics)
+
+                    while g_Menu[2] == 1: 
                         g_MaxQuestions = 0
                         g_UnavaliableQuestions = 0
                         g_UnavaliableQuestionSets = 0
 
-                        for g_I in range(len(g_ChosenTopics)):
-                            try:
-                                g_ReadFile = open(f"{getWorkingDirectory()}/Subjects/{g_AllSubjects[int(g_ChosenSubject)-1]}/{g_ChosenTopics[g_I]}") 
+                        for g_I in range(len(g_ChosenTopics)):                                                                                          # Finds the amount of questions inside a topic to select from.
+                            try:                                                                                                                        # This checks if the topic can be opened. 
+                                g_ReadFile = open(f"{getWorkingDirectory()}/Subjects/{g_AllSubjects[int(g_ChosenSubject)-1]}/{g_ChosenTopics[g_I]}")    # Opens one of the selected topics into g_ReadFile
                                 
-                                for g_J in g_ReadFile.readlines()[1:]: # W3Schools, n.d. https://www.w3schools.com/python/ref_file_readlines.asp returns a list of the file per row. 
-                                    if checkValidQuestion(ast.literal_eval(g_J)) == 1:
-                                        g_UnavaliableQuestions += 1
+                                for g_J in g_ReadFile.readlines()[1:]:                                                                                  # W3Schools, n.d. https://www.w3schools.com/python/ref_file_readlines.asp returns a list of the file per row. 
+                                    if checkValidQuestion(ast.literal_eval(g_J)) == 1:                                                                  # Checks if the question row has all the correct information inside it. Converts the question row to a dictionary.
+                                        g_UnavaliableQuestions += 1                                                                                     # If the question isn't valid, then it adds 1 to the number of invalid questions.
                                     else:
                                         g_MaxQuestions += 1
                                 g_ReadFile.close()
                             except:
-                                g_UnavaliableQuestionSets += 1
+                                g_UnavaliableQuestionSets += 1                                                                                          # If the entire set is invalid, then it adds 1 to the number in invalid question sets. 
                         
-                        g_Input = obtainValidInput({'Menu':'TestSetup_Questions', 'MaxQuestions':g_MaxQuestions, 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'CorruptSets':g_UnavaliableQuestionSets, 'CorruptQuestions':g_UnavaliableQuestions}, 2, [g_MaxQuestions, 'e'])
+                        g_Input = obtainValidInput({'Menu':'TestSetup_Questions', 'MaxQuestions':g_MaxQuestions, 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'CorruptSets':g_UnavaliableQuestionSets, 'CorruptQuestions':g_UnavaliableQuestions}, 2, [g_MaxQuestions, 'e']) # Opens the question amount selector. Also shows if any question sets aren't valid. 
 
-                        if g_Input == 'e':
+                        if g_Input == 'e':                                                                                                              # If user wants to go back.
                             g_Menu[2] = 0
                         else:
                             g_Menu[3] = 1
                             g_ChosenAmtQuestions = g_Input
 
-                            while g_Menu[3] != 0:
-                                g_RecommendedTime = str(round(int(g_ChosenAmtQuestions)*0.75)) # round() from W3 Schools (n.d.) rounds a float. https://www.w3schools.com/python/ref_func_round.asp 
+                            while g_Menu[3] != 0:                                                                                                        # Calculates the amount of time recommended by allocating 45 seconds to each question.
+                                g_RecommendedTime = str(round(int(g_ChosenAmtQuestions)*0.75))                                                           # round() from W3 Schools (n.d.) rounds a float. https://www.w3schools.com/python/ref_func_round.asp 
     	                        
-                                g_Input = obtainValidInput({'Menu':'TestSetup_Time', 'RecommendedTime':g_RecommendedTime, 'Subject':g_AllSubjects[int(g_ChosenSubject)-1]}, 3, ['e'])
+                                g_Input = obtainValidInput({'Menu':'TestSetup_Time', 'RecommendedTime':g_RecommendedTime, 'Subject':g_AllSubjects[int(g_ChosenSubject)-1]}, 3, ['e']) # Displays a menu to select the amount of time.
 
                                 if g_Input == 'e':
                                     g_Menu[3] = 0
@@ -506,8 +507,8 @@ while True:
                                     g_Menu[4] = 1
                                     g_ChosenAmtTime = g_Input
 
-                                    while g_Menu[4] == 1:
-                                        g_Input = obtainValidInput({'Menu':'TestSetup_FinalCheck', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'Topics':g_ChosenTopics, 'AmtTime':g_ChosenAmtTime, 'AmtQuestions':g_ChosenAmtQuestions}, 1, ['s', 'e'])
+                                    while g_Menu[4] == 1: # Final check!
+                                        g_Input = obtainValidInput({'Menu':'TestSetup_FinalCheck', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'Topics':g_ChosenTopics, 'AmtTime':g_ChosenAmtTime, 'AmtQuestions':g_ChosenAmtQuestions}, 1, ['s', 'e']) # Shows final check page.
 
                                         if g_Input == 'e':
                                             g_Menu[4] = 0 
@@ -519,15 +520,15 @@ while True:
                                             g_I = 0
                                             g_test_LogName = '' 
 
-                                            while g_I < int(g_ChosenAmtQuestions):
+                                            while g_I < int(g_ChosenAmtQuestions):                                                                       # Generate the question set.
                                                 
-                                                if g_RecursionMax > 100:
+                                                if g_RecursionMax > 500:                                                                                 # If the program tries to find another question if the question is invalid over 500 times, this means there is no questions remaining to reach the target requirement.
                                                     break
 
-                                                try:
-                                                    g_ReadFile = open(f"{getWorkingDirectory()}/Subjects/{g_AllSubjects[int(g_ChosenSubject)-1]}/{random.choice(g_ChosenTopics)}")
-                                                    g_Temp = random.choice(g_ReadFile.readlines()[1:])
-                                                    if g_Temp not in g_test_Questions and checkValidQuestion(ast.literal_eval(g_Temp)) == 0:
+                                                try:                                                                                                     # If the program fails to open the file, this means the question set cannot be accessed and the set are not generated. 
+                                                    g_ReadFile = open(f"{getWorkingDirectory()}/Subjects/{g_AllSubjects[int(g_ChosenSubject)-1]}/{random.choice(g_ChosenTopics)}") # Opens the file.
+                                                    g_Temp = random.choice(g_ReadFile.readlines()[1:])                                                   # Choose a random question from the test.
+                                                    if g_Temp not in g_test_Questions and checkValidQuestion(ast.literal_eval(g_Temp)) == 0:             # Makes sure that the question isn't already in the test.
                                                         g_test_Questions.append(g_Temp)
                                                         g_I += 1
                                                     else:
@@ -535,65 +536,67 @@ while True:
                                                 except:
                                                     break
 
-                                            if len(g_test_Questions) == 0:
+                                            if len(g_test_Questions) == 0:                                                                               # If the generator couldn't generate a question set at all, the program alerts the user and then goes back to the previous screen.
                                                 os.system('cls')
                                                 print(f"{bcolours.CUSTOMITALIC}Failed to generate a question set.{bcolours.ENDC}\n")
                                                 print(f"We couldn't retrieve any of the nessesary questions to start the test.")
                                                 print(f"{bcolours.CUSTOMGRAY}This may be due to corrupt question data.\n{bcolours.ENDC}")
-                                                input(f"[Enter] to go back\n>>")
+                                                input(f"[Enter] to go back\n{g_Prompt}")
                                                 g_Menu[4] = 0
                                                 break
                                             
-                                            if g_RecursionMax >= 100:
+                                            if g_RecursionMax >= 500:                                                                                    # If the generator was able to get some questions but couldn't reach the target amount, the program alerts the  user and then continues the test.
                                                 os.system('cls')
                                                 print(f"{bcolours.CUSTOMITALIC}We couldn't retrieve some questions.{bcolours.ENDC}\n")
                                                 print(f"You specified {g_ChosenAmtQuestions} questions, however we could only generate a question set with {len(g_test_Questions)} questions.")
                                                 print(f"{bcolours.CUSTOMGRAY}This may be due to corrupt question data.\n{bcolours.ENDC}")
-                                                input(f"[Enter] to continue\n>>")
+                                                input(f"[Enter] to continue\n{g_Prompt}")
 
-                                            g_test_LogName = f"{getWorkingDirectory()}/Results/{g_AllSubjects[int(g_ChosenSubject)-1]} on {str(datetime.today().strftime('%Y-%m-%d'))} ({str(datetime.today().strftime('%H-%M-%S'))}) {g_ChosenAmtTime} minutes {g_ChosenAmtQuestions} questions.txt"
-                                            g_test_Log = open(g_test_LogName, 'a')           # 'Diegueus9', 2015, displays date in YYYY-MM-DD form. https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python   
+                                            g_test_LogName = f"{getWorkingDirectory()}/Results/{g_AllSubjects[int(g_ChosenSubject)-1]} on {str(datetime.today().strftime('%Y-%m-%d'))} ({str(datetime.today().strftime('%H-%M-%S'))}) {g_ChosenAmtTime} minutes {g_ChosenAmtQuestions} questions.txt" # 'Diegueus9', 2015, displays date in YYYY-MM-DD form. https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python   
+                                            g_test_Log = open(g_test_LogName, 'a')                                                                       # Using the directory name generated above, the program logs the question set into a new file.                                                                     
                                             
-                                            g_test_Log.write('{' + f"'Subject':'{g_AllSubjects[int(g_ChosenSubject)-1]}','Topics':{g_ChosenTopics}, 'TimeTaken':0, 'TimeAllocated':{g_ChosenAmtTime}, 'Date':'{datetime.today().strftime('%Y-%m-%d %H-%M-%S')}', 'Score':0, 'AmtQuestions':{g_ChosenAmtQuestions}, 'Type':'Test'" + '}' + f'\n')
+                                            g_test_Log.write('{' + f"'Subject':'{g_AllSubjects[int(g_ChosenSubject)-1]}','Topics':{g_ChosenTopics}, 'TimeTaken':0, 'TimeAllocated':{g_ChosenAmtTime}, 'Date':'{datetime.today().strftime('%Y-%m-%d %H-%M-%S')}', 'Score':0, 'AmtQuestions':{g_ChosenAmtQuestions}, 'Type':'Test'" + '}' + f'\n') # Program writes the test information at the very top of the file.
                                             
-                                            for g_I in g_test_Questions:
-                                                g_test_Log.write(f"{g_I.strip()}\n")     
+                                            for g_I in g_test_Questions:                                                                                 # For each item in the question set, this loop fixes any abnormalities (such as rogue escape sequences) and puts it into the question set.
+                                                g_test_Log.write(f"{g_I.strip()}\n")    
                                             
-                                            g_test_Log = open(g_test_LogName, 'r')
+                                            g_test_Log = open(g_test_LogName, 'r')                                                                       # In order to read the question set like a normal file, the program changes the context from append to read.
                                             g_test_Questions = []
-                                            for g_I in g_test_Log:
-                                                g_test_Questions.append(ast.literal_eval(g_I))                                   
-                                            g_test_Log.close()
+                                            for g_I in g_test_Log:                                                                                       # For each item in the log, the program converts the string into a dictionary.
+                                                g_test_Questions.append(ast.literal_eval(g_I))                                                           # The program then appends this dictionary to a list.                                 
+                                            g_test_Log.close()                                                                                           # The program closes the test log, and will update it when the test is over.
 
-                                            g_test_StartTime = int(time.time())
-                                            g_test_EndTime = g_test_StartTime + (int(g_ChosenAmtTime)*60)
-                                            g_test_CurrentTime = round((g_test_EndTime - g_test_StartTime)/60)
+                                            # Program now calculates the end time of the test.
+                                            g_test_StartTime = int(time.time())                                                                          # Gets the start time in epoch.
+                                            g_test_EndTime = g_test_StartTime + (int(g_ChosenAmtTime)*60)                                                # Finds the end time in epoch by adding the chosen amount of time to the start time.
+                                            g_test_CurrentTime = round((g_test_EndTime - g_test_StartTime)/60)                                           # Amount of time remaining.
 
                                             while True:
-                                                g_Input = obtainValidInput({'Menu':'Test_Main', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'QuestionNo.':g_test_QuestionNum, 'AmtQuestions':g_ChosenAmtQuestions, 'TimeRemaining':round(g_test_CurrentTime), 'Question':g_test_Questions[g_test_QuestionNum]['Question'], 'PossibleAnswers':g_test_Questions[g_test_QuestionNum]['Answers'], 'SelectedAnswer':g_test_Questions[g_test_QuestionNum]['SelectedAnswer']}, 1, ['a','b','c','d','e','s','k'])
-                                                g_test_CurrentTime = (g_test_EndTime - int(time.time()))/60
+                                                g_Input = obtainValidInput({'Menu':'Test_Main', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1], 'QuestionNo.':g_test_QuestionNum, 'AmtQuestions':g_ChosenAmtQuestions, 'TimeRemaining':round(g_test_CurrentTime), 'Question':g_test_Questions[g_test_QuestionNum]['Question'], 'PossibleAnswers':g_test_Questions[g_test_QuestionNum]['Answers'], 'SelectedAnswer':g_test_Questions[g_test_QuestionNum]['SelectedAnswer']}, 1, ['a','b','c','d','e','s','k']) # Display the question
+                                                g_test_CurrentTime = (g_test_EndTime - int(time.time()))/60 # Calculates the remaining time.
 
-                                                if g_test_CurrentTime < 0:
+                                                if g_test_CurrentTime < 0: # If the user has gone overtime, then it checks here. 
                                                     break
-                                                if g_Input == 'e':
-                                                    if g_test_QuestionNum != 1:
+
+                                                if g_Input == 'e': # If the user wants to go back one question.
+                                                    if g_test_QuestionNum != 1: # Program does not allow user to go back if theres no questions to go back to.
                                                         g_test_QuestionNum = g_test_QuestionNum - 1 
-                                                elif g_Input == 's':
-                                                    if g_test_QuestionNum != int(g_ChosenAmtQuestions):
+                                                elif g_Input == 's': # If the user wants to go forward.
+                                                    if g_test_QuestionNum != int(g_ChosenAmtQuestions): # Program does not allow the user to go forward if theres no questions to go forward to. 
                                                         g_test_QuestionNum += 1
-                                                elif g_Input == 'k':
-                                                    g_test_UnansweredQuestions = []
+                                                elif g_Input == 'k': # If the user wants to end the test.
+                                                    g_test_UnansweredQuestions = [] 
                                                     g_AllPossibleOptions = []
-                                                    for g_I in range(len(g_test_Questions)-1):
+                                                    for g_I in range(len(g_test_Questions)-1): # Finds the questions that havent been answered yet. 
                                                         if g_test_Questions[g_I+1]['SelectedAnswer'] == None:
                                                             g_test_UnansweredQuestions.append(g_I)
 
-                                                    for g_I in range(len(g_test_Questions)-1):
+                                                    for g_I in range(len(g_test_Questions)-1): # Get all possible user inputs.
                                                         g_AllPossibleOptions.append(str(g_I+1))
                                                     g_AllPossibleOptions.append('e')
                                                     g_AllPossibleOptions.append('k')
 
-                                                    g_Input = obtainValidInput({'Menu':'Test_PreExit', 'AmtQuestions':int(g_ChosenAmtQuestions), 'UnansweredQuestions':g_test_UnansweredQuestions, 'Subject':g_ChosenSubject}, 1, g_AllPossibleOptions)
+                                                    g_Input = obtainValidInput({'Menu':'Test_PreExit', 'AmtQuestions':int(g_ChosenAmtQuestions), 'UnansweredQuestions':g_test_UnansweredQuestions, 'Subject':g_ChosenSubject}, 1, g_AllPossibleOptions) # Opens pre-exit screen.
                                                     if g_Input == 'e':
                                                         pass
                                                     elif g_Input == 'k':
@@ -601,28 +604,28 @@ while True:
                                                     else:
                                                         g_test_QuestionNum = int(g_Input)
                                                 else:
-                                                    g_test_Questions[g_test_QuestionNum]['SelectedAnswer'] = g_Alpha.index(g_Input) # Coventry, 2008 Finds index of given input https://stackoverflow.com/questions/176918/how-to-find-the-index-for-a-given-item-in-a-list
+                                                    g_test_Questions[g_test_QuestionNum]['SelectedAnswer'] = g_Alpha.index(g_Input)                         # Coventry, 2008 Finds index of given input https://stackoverflow.com/questions/176918/how-to-find-the-index-for-a-given-item-in-a-list
 
-                                            if g_test_CurrentTime < 0:
+                                            if g_test_CurrentTime < 0: # Opens the 'Out of time' exit screen if the test ended due to overtime. 
                                                 g_Input = obtainValidInput({'Menu':'Test_OutOfTime', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1]}, 1, ['s', 'e'])
                                             else: 
                                                 g_Input = obtainValidInput({'Menu':'Test_End', 'Subject':g_AllSubjects[int(g_ChosenSubject)-1]}, 1, ['s', 'e'])
                                             
                                             g_test_Questions[0]['TimeTaken'] = str(round((int(time.time()) - g_test_StartTime)/60))
 
-                                            try:
-                                                open(g_test_LogName, 'w').close() # Parker, 2022 Clears everything in file. https://stackoverflow.com/questions/2769061/how-to-erase-the-file-contents-of-text-file-in-python
+                                            try: # Logs the test into the test log.
+                                                open(g_test_LogName, 'w').close()                                                                           # Parker, 2022 Clears everything in file. https://stackoverflow.com/questions/2769061/how-to-erase-the-file-contents-of-text-file-in-python
                                                 
-                                                g_ReadFile = open(g_test_LogName, 'a')
+                                                g_ReadFile = open(g_test_LogName, 'a') # Writes the results of the test into the exist text file created at the start of the test.
                                                 for g_I in g_test_Questions:
                                                     g_ReadFile.write(f"{str(g_I)}\n")
                                                 
                                                 g_ReadFile.close()
-                                            except:
+                                            except: # In theory this error shouldn't be possible because python simply creates a new file if the existing one isn't availiable, however it's good to have it just in case.
                                                 print(f"{bcolours.WARNING}Quizzer couldn't save this test.\n{bcolours.CUSTOMGRAY}We couldn't access the created log file.\n")
-                                                input('>>')
+                                                input(g_Prompt)
 
                                             if g_Input == 's':
-                                                g_Menu = [2,0,0,0,0,0,0] 
+                                                g_Menu = [2,0,0,0,0,0,0]  # Goes to results screen and clears all other menus.
                                             else:
-                                                g_Menu = [0,0,0,0,0,0,0] 
+                                                g_Menu = [0,0,0,0,0,0,0] # Goes to home screen and clears all other menus.

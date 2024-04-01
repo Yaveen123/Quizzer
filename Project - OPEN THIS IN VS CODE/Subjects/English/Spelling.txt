@@ -1,0 +1,11 @@
+{'Subject':'English','Topic':'Spelling'}
+{'Question': 'Which word is spelled correctly?', 'Answers': ['accomodate', 'accommodate', 'accomodate', 'accomidate'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
+{'Question': 'How do you spell the past tense of "swim"?', 'Answers': ['swimed', 'swimmed', 'swimd', 'swum'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
+{'Question': 'Find the word with a double consonant:', 'Answers': ['beleive', 'believe', 'beleive', 'belive'], 'SelectedAnswer': None, 'CorrectAnswer': 2}
+{'Question': 'Which word has a silent "e" at the end?', 'Answers': ['acheive', 'achieve', 'acheive', 'acheav'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
+{'Question': 'How do you spell "necessary" with two "c"s?', 'Answers': ['neccessary', 'necessary', 'neccesary', 'neccassary'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
+{'Question': 'Find the word with a silent "w":', 'Answers': ['wrong', 'write', 'wright', 'wronge'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
+{'Question': 'Which word is spelled correctly?', 'Answers': [' recieve', 'receive', 'recieeve', 'recieve'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
+{'Question': 'How do you spell "dessert," the sweet course at the end of a meal?', 'Answers': ['desert', 'dessert', 'desrt', 'deserte'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
+{'Question': 'Find the word with a doubled vowel:', 'Answers': ['accomodate', 'accommodate', 'accomodatr', 'accomodate'], 'SelectedAnswer': None, 'CorrectAnswer': 0}
+{'Question': 'Which word uses the "ie" sound?', 'Answers': ['beleive', 'believe', 'beleive', 'belive'], 'SelectedAnswer': None, 'CorrectAnswer': 1}
