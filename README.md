@@ -1,5 +1,4 @@
 # Welcome to Quizzer!
-> Software Engineering Task 1 - 2024 
 
 Quizzer - a simple system that allows you to mix different questions from multiple question sets! 
 Why? Because real world exams often test different topics at one time, but current pre-test/quiz systems often only tackle one topic at a time.  
